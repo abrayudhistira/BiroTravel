@@ -1,0 +1,5 @@
+<% include('../layouts/layout.ejs', { title: 'Profile', content: 'profile' }) %>
+
+<h2>Welcome, <%= user.username %></h2>
+<p>Role: <%= user.role %></p>
+<a href="/user/logout">Logout</a>

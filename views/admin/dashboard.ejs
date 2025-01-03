@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Admin Dashboard</h1>
+    </header>
+    
+    <h2>Admin Dashboard</h2>
+
+    <!-- Display the list of users -->
+    <ul>
+      <% users.forEach(user => { %>
+        <li><%= user.username %> (<%= user.role %>)</li>
+      <% }) %>
+    </ul>
+    
+    <!-- Logout Form -->
+    <form action="/admin/logout" method="GET">
+        <button type="submit">Logout</button>
+    </form>
+
+    <footer>
+        <p>Admin Panel &copy; 2025</p>
+    </footer>
+</body>
+</html>
