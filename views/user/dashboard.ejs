@@ -9,6 +9,8 @@
 <body>
   <div class="container mt-5">
     <h1 class="text-center text-primary mb-4">Daftar Paket Bundling</h1>
+    <h1>Selamat datang, <%= user.username %>!</h1>
+    <a href="/user/riwayat-transaksi" class="btn btn-primary">Riwayat Transaksi</a>
     <div class="row">
       <% paket.forEach(p => { %>
         <div class="col-md-4 mb-4">
@@ -33,6 +35,10 @@
         </div>
       <% }); %>
     </div>
+    <!-- Tombol Logout -->
+    <div class="text-right mb-3">
+        <a href="/user/logout" class="btn btn-danger">Logout</a>
+      </div>
   </div>
 
   <!-- Bootstrap JS and dependencies -->

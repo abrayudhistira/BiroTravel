@@ -28,4 +28,5 @@ const PaketBundling = sequelize.define('paketbundling', {
     timestamps: false
 });
 
+
 module.exports = PaketBundling;

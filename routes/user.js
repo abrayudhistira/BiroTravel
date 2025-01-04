@@ -48,7 +48,7 @@ router.get('/dashboard', async (req, res) => {
 
 
 // Route to logout (destroy session)
-router.post('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
     req.session.destroy((err) => { 
         if (err) {
             return res.status(500).send('Error during logout.');
@@ -145,6 +145,38 @@ router.post('/transaksi', async (req, res) => {
     } catch (err) {
       console.error(err);
       res.status(500).send('Error creating transaksi.');
+    }
+});
+
+// Route untuk Riwayat Transaksi berdasarkan user ID
+router.get('/riwayat-transaksi', async (req, res) => {
+    const user = req.session.user;  // Mengambil user yang sedang login
+    
+    // Pastikan user ada di session
+    if (!user) {
+        return res.redirect('/user/login');  // Redirect ke halaman login jika tidak ada user
+    }
+
+    try {
+        // Ambil riwayat transaksi berdasarkan user id
+        const transaksi = await Transaksi.findAll({
+            where: { id: user.id },  // Filter berdasarkan id user
+            include: [
+                { model: PaketBundling,
+                  attributes: ['Nama_paket', 'Harga'],
+                  required: true //Pastikan hanya transaksi yang memiliki paket yang ditampilkan
+                 },  // Include PaketBundling untuk menampilkan nama dan harga paket
+            ],
+        });
+
+        // Render halaman dengan data transaksi
+        res.render('user/riwayatTransaksi', {
+            user,
+            transaksi,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching transaction history.');
     }
 });
 
