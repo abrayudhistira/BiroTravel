@@ -2,10 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const userRouter = require('./routes/user');
 const adminRouter = require('./routes/admin');
+const transaksiRouter = require('./routes/transaksi');
 const sequelize = require('./config/database');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const session = require('express-session');  // Add this line
+const session = require('express-session');
+const paketRouter = require('./routes/paket');
 
 // Inisialisasi app terlebih dahulu
 const app = express();
@@ -14,6 +16,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+// Middleware untuk static file upload
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Add session middleware here
 app.use(session({
@@ -29,17 +34,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Static files
+// Static files (Public resources)
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/user', userRouter);
 app.use('/admin', adminRouter);
+app.use('/paket', paketRouter); // Hanya perlu dipanggil sekali
 
-// Landing page
+// Tambahkan routes untuk transaksi
+app.use('/', transaksiRouter);
+
+// Landing page route
 app.get('/', (req, res) => {
     res.render('landing');  // Render the landing page
-  });
+});
 
 // Database Sync and Start Server
 sequelize.sync()

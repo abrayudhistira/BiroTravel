@@ -1,0 +1,30 @@
+<h1>Manage Paket Bundling</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nama Paket</th>
+            <th>Deskripsi</th>
+            <th>Harga</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% paket.forEach((p) => { %>
+            <tr>
+                <td><%= p.id %></td>
+                <td><%= p.Nama_paket %></td>
+                <td><%= p.Deskripsi %></td>
+                <td><%= p.Harga %></td>
+                <td>
+                    <a href="/admin/paket/<%= p.id %>">Detail</a>
+                    <a href="/admin/paket/edit/<%= p.id %>">Edit</a>
+                    <form action="/admin/paket/<%= p.id %>?_method=DELETE" method="POST" style="display:inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+<a href="/admin/paket/new">Add New Paket</a>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Konfirmasi Transaksi</title>
+</head>
+<body>
+  <h1>Konfirmasi Pembayaran</h1>
+
+  <!-- Cek apakah user dan paket ada -->
+  <% if (user && paket) { %>
+    <form action="/transaksi" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="id" value="<%= user.id %>">
+      <input type="hidden" name="ID_Paket" value="<%= paket.ID_Paket %>">
+      <p>Paket: <%= paket.Nama_paket %></p>
+      <p>Harga: Rp <%= paket.Harga %></p>
+      <p>Total Pembayaran: Rp <%= Jumlah_Pembayaran %></p>
+
+      <label for="Bukti_Pembayaran">Upload Bukti Pembayaran:</label>
+      <input type="file" name="Bukti_Pembayaran" required>
+
+      <button type="submit">Konfirmasi Pembayaran</button>
+    </form>
+  <% } else { %>
+    <p>Data tidak lengkap. Pastikan Anda sudah login dan memilih paket yang benar.</p>
+  <% } %>
+
+</body>
+</html>

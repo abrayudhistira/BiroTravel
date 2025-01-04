@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Paket Bundling</title>
+  <!-- Bootstrap CSS -->
+  <link 
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" 
+    rel="stylesheet" 
+    integrity="sha384-MaM9dXL-TUC9vL86Wya6vOYdNHb3mbH9HJ1PpLnsLb2/6a5x+uGni2grkx9Te8rN" 
+    crossorigin="anonymous">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .list-group-item {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+    }
+    .list-group-item h2 {
+      color: #007bff;
+    }
+    .btn-custom {
+      background-color: #28a745;
+      color: #fff;
+    }
+    .btn-custom:hover {
+      background-color: #218838;
+    }
+    .btn-warning, .btn-danger {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1 class="text-center text-primary mb-4">Daftar Paket Bundling</h1>
+
+  <!-- Button Add Paket -->
+  <div class="text-right mb-4">
+    <a href="/admin/paket/new" class="btn btn-custom">Tambah Paket Baru</a>
+  </div>
+
+  <ul class="list-group">
+    <% paket.forEach(p => { %>
+      <li class="list-group-item p-4 shadow-sm mb-3">
+        <h2><%= p.Nama_paket %></h2>
+        <p class="text-muted"><%= p.Deskripsi %></p>
+        <p><strong>Harga:</strong> <span class="text-success">Rp <%= p.Harga %></span></p>
+        <% if (p.Gambar) { %>
+          <img src="data:image/png;base64,<%= p.Gambar.toString('base64') %>" alt="<%= p.Nama_paket %>" class="img-thumbnail my-3" style="width: 150px;">
+        <% } else { %>
+          <p class="text-warning">[Gambar tidak tersedia]</p>
+        <% } %>
+        <div class="mt-3">
+          <a href="/admin/paket/edit/<%= p.ID_Paket %>" class="btn btn-warning btn-sm">Edit</a>
+          <form action="/admin/paket/delete/<%= p.ID_Paket %>" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus paket ini?')">Hapus</button>
+          </form>
+        </div>
+      </li>
+    <% }); %>
+  </ul>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script 
+  src="https://code.jquery.com/jquery-3.5.1.slim.min.js" 
+  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" 
+  crossorigin="anonymous"></script>
+<script 
+  src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js" 
+  integrity="sha384-vk1F5pOWT+IrpZeMmvbkoDzV33p6wEaKPCALNfhxxp9TY/UT/6YSFz8m8I8L93D3" 
+  crossorigin="anonymous"></script>
+<script 
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" 
+  integrity="sha384-B4gt1jrGC7Jh4AgjC07vxZkvY51qmxqSACxjNPWtxJOPPJG1SkFtJdZGBGh1mEOn" 
+  crossorigin="anonymous"></script>
+</body>
+</html>

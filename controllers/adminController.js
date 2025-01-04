@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/Users');
+const fs = require('fs');
 const session = require('express-session');
+const PaketBundling = require('../models/PaketBundling');
 
 // Controller for showing login form
 exports.showLoginAdmin = (req, res) => {
@@ -72,4 +74,87 @@ exports.logout = (req, res) => {
         }
         res.redirect('/admin/adminlogin'); // Redirect to login page after logout
     });
+};
+
+// Menampilkan dashboard admin
+exports.showAdminDashboard = (req, res) => {
+    res.render('admin/dashboard', { user: req.session.user });
+};
+
+// Menambahkan paket baru (admin)
+exports.createPaket = async (req, res) => {
+    try {
+      const { Nama_paket, Deskripsi, Harga } = req.body;
+      let Gambar = null;
+  
+      if (req.file) {
+        Gambar = fs.readFileSync(req.file.path); // Membaca file gambar sebagai BLOB
+      }
+  
+      await PaketBundling.create({ Nama_paket, Deskripsi, Harga, Gambar });
+  
+      // Hapus file sementara setelah tersimpan
+      if (req.file) fs.unlinkSync(req.file.path);
+  
+      res.redirect('/admin/paket');
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error adding paket bundling.');
+    }
+};
+// Menampilkan semua paket bundling
+exports.getAllPaket = async (req, res) => {
+    try {
+      const paket = await PaketBundling.findAll();
+      res.render('paket/list', { paket });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error fetching paket bundling data.');
+    }
+};;
+
+exports.getPaketById = async (req, res) => {
+    try {
+      const paket = await PaketBundling.findByPk(req.params.id);
+  
+      if (!paket) {
+        return res.status(404).send('Paket not found.');
+      }
+  
+      const gambarBase64 = paket.Gambar ? paket.Gambar.toString('base64') : null;
+  
+      res.render('paket/detail', { paket, gambarBase64 });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error fetching paket.');
+    }
+  };;
+
+// Mengupdate paket
+exports.updatePaket = async (req, res) => {
+    try {
+        const { Nama_paket, Deskripsi, Gambar, Harga } = req.body;
+        const paket = await PaketBundling.findByPk(req.params.id);
+        if (!paket) return res.status(404).send('Paket not found.');
+
+        await paket.update({ Nama_paket, Deskripsi, Gambar, Harga });
+        res.redirect('/admin/dashboard');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error updating paket bundling.');
+    }
+};
+
+// Menghapus paket
+exports.deletePaket = async (req, res) => {
+    try {
+        const paket = await PaketBundling.findByPk(req.params.id);
+        if (!paket) return res.status(404).send('Paket not found.');
+
+        await paket.destroy();
+        res.redirect('/admin/dashboard');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error deleting paket bundling.');
+    }
 };

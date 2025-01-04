@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/Users');
+const PaketBundling = require('../models/PaketBundling');
 
 // Register user
 exports.register = async (req, res) => {
@@ -66,11 +67,49 @@ exports.showRegister = (req, res) => {
     res.render('user/register', { title: 'Register' });
 };
 
-// Show user dashboard
-exports.showDashboard = (req, res) => {
-    if (!req.session.user) {
-        return res.redirect('/user/login'); // Redirect to login if not authenticated
-    }
+// // Show user dashboard
+// exports.showDashboard = (req, res) => {
+//     if (!req.session.user) {
+//         return res.redirect('/user/login'); // Redirect to login if not authenticated
+//     }
 
-    res.render('user/dashboard', { user: req.session.user });
+//     res.render('user/dashboard', { user: req.session.user });
+// };
+
+
+
+// Contoh controller showDashboard
+// exports.showDashboard = async (req, res) => {
+//     try {
+//       // Ambil data paket dari database
+//       const paket = await PaketBundling.findAll();
+  
+//       // Kirim data paket ke view dashboard
+//       res.render('user/dashboard', { paket });
+//     } catch (err) {
+//       console.error(err);
+//       res.status(500).send('Error fetching data.');
+//     }
+// };
+  
+// Controller untuk menampilkan dashboard
+exports.showDashboard = async (req, res) => {
+    try {
+        // Pastikan user ada di session
+        if (!req.session.user) {
+            return res.redirect('/user/login'); // Jika tidak ada session user, arahkan ke halaman login
+        }
+
+        // Ambil data paket dari database
+        const paket = await PaketBundling.findAll();
+
+        // Kirim data paket dan user ke view dashboard
+        res.render('user/dashboard', { 
+            user: req.session.user, // Kirim data user yang ada di session
+            paket 
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching data.');
+    }
 };

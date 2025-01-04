@@ -1,0 +1,9 @@
+<h1><%= paket.Nama_paket %></h1>
+<p><%= paket.Deskripsi %></p>
+<p>Harga: <%= paket.Harga %></p>
+
+<% if (gambarBase64) { %>
+  <img src="data:image/jpeg;base64,<%= gambarBase64 %>" alt="Gambar Paket" />
+<% } else { %>
+  <p>No image available</p>
+<% } %>

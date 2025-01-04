@@ -1,30 +1,30 @@
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = require('../config/database'); // Sesuaikan path
 
-class User extends Model {}
-
-User.init(
-  {
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    role: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: 'user', // default role is user
-    },
+const User = sequelize.define('User', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,  // Auto increment untuk ID
+    allowNull: false,
   },
-  {
-    sequelize,
-    modelName: 'User',
-    timestamps: false,  // Automatically adds 'createdAt' and 'updatedAt'
-  }
-);
+  username: {
+    type: DataTypes.STRING(255),
+    unique: true,  // Pastikan username unik
+    allowNull: false,
+  },
+  password: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+  },
+  role: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+    defaultValue: 'user',  // Peran default
+  },
+}, {
+  tableName: 'users', // Nama tabel dalam database
+  timestamps: false, // Jika tidak menggunakan createdAt/updatedAt
+});
 
 module.exports = User;

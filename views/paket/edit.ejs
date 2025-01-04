@@ -1,0 +1,19 @@
+<form action="/admin/paket/<%= paket.ID_Paket %>" method="POST" enctype="multipart/form-data">
+  <div>
+    <label for="Nama_paket">Nama Paket</label>
+    <input type="text" id="Nama_paket" name="Nama_paket" value="<%= paket.Nama_paket %>" required>
+  </div>
+  <div>
+    <label for="Deskripsi">Deskripsi</label>
+    <textarea id="Deskripsi" name="Deskripsi" required><%= paket.Deskripsi %></textarea>
+  </div>
+  <div>
+    <label for="Harga">Harga</label>
+    <input type="number" id="Harga" name="Harga" step="0.01" value="<%= paket.Harga %>" required>
+  </div>
+  <div>
+    <label for="Gambar">Gambar</label>
+    <input type="file" id="Gambar" name="Gambar" accept="image/*">
+  </div>
+  <button type="submit">Update Paket</button>
+</form>
