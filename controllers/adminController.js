@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/Users');
 const fs = require('fs');
+const Transaksi = require('../models/Transaksi');
 const session = require('express-session');
 const PaketBundling = require('../models/PaketBundling');
 
@@ -44,10 +45,14 @@ exports.showDashboard = async(req, res) => {
             // Fetch all users from the database
             const users = await User.findAll();
 
-            // Render the dashboard page and pass the users to the view
+            // Fetch all transaksi from the database
+            const transaksi = await Transaksi.findAll();
+
+            // Render the dashboard page and pass the users and transaksi to the view
             res.render('admin/dashboard', {
                 title: 'Admin Dashboard',
-                users: users
+                users: users,
+                transaksi: transaksi
             });
         } catch (err) {
             console.error('Error fetching users:', err);

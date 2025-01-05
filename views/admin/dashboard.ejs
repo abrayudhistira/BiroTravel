@@ -1,24 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title>
+        <%= title %>
+    </title>
 </head>
+
 <body>
     <header>
         <h1>Welcome to the Admin Dashboard</h1>
     </header>
-    
+
     <h2>Admin Dashboard</h2>
 
     <!-- Display the list of users -->
     <ul>
-      <% users.forEach(user => { %>
-        <li><%= user.username %> (<%= user.role %>)</li>
-      <% }) %>
+        <% users.forEach(user => { %>
+            <li>
+                <%= user.username %> (
+                    <%= user.role %>)</li>
+            <% }) %>
     </ul>
-
+    <!-- admin/transaksi.ejs -->
+    <h2>Transaksi</h2>
+    <ul>
+        <% transaksi.forEach((transaksi) => { %>
+            <li>
+                <p>ID Transaksi:
+                    <%= transaksi.ID_Transaksi %>
+                </p>
+                <p>ID Pengguna:
+                    <%= transaksi.id %>
+                </p>
+                <p>ID Paket:
+                    <%= transaksi.ID_Paket %>
+                </p>
+                <p>Jumlah Pembayaran:
+                    <%= transaksi.Jumlah_Pembayaran %>
+                </p>
+                <p>Jenis Pembayaran:
+                    <%= transaksi.jenis_pembayaran %>
+                </p>
+                <p>Bukti Pembayaran:
+                    <%= transaksi.Bukti_Pembayaran %>
+                </p>
+                <a href="/admin/transaksi/<%= transaksi.ID_Transaksi %>/delete">Hapus</a>
+            </li>
+            <% }); %>
+    </ul>
     <a href="/admin/paket">Manage Paket Bundling</a>
     <!-- Logout Form -->
     <form action="/admin/logout" method="GET">
@@ -29,4 +61,5 @@
         <p>Admin Panel &copy; 2025</p>
     </footer>
 </body>
+
 </html>

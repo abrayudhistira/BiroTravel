@@ -3,6 +3,7 @@ const { showLoginAdmin, loginadmin, showAdminPage, showDashboard, getAllPaket, g
 const router = express.Router();
 const { authenticate, isAdmin } = require('../middlewares/auth');
 const { logout } = require('../controllers/adminController');
+const adminController = require('../controllers/adminController');
 
 // Route to display the login page (GET request)
 router.get('/adminlogin', showLoginAdmin); // Show the login page
