@@ -1,13 +1,21 @@
 <% include('../layouts/layout.ejs', { title: 'Register', content: 'Here is the registration form' }) %>
 
-<form action="/user/register" method="POST">
-    <h2>Register</h2>
-    <label for="username">Username</label>
-    <input type="text" id="username" name="username" required>
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" required>
-    <button type="submit">Register</button>
-    <!-- Back to Landing Page Button -->
-    <br>
-    <a href="/">Back to Landing</a>
-</form>
+    <form action="/user/register" method="POST">
+        <h2>Register</h2>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+        <label for="nama">Nama</label>
+        <input type="text" id="nama" name="nama" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+        <label for="alamat">Alamat</label>
+        <input type="text" id="alamat" name="alamat" required>
+        <label for="no_telp">No. Telp</label>
+        <input type="text" id="no_telp" name="no_telp" required>
+        <button type="submit">Register</button>
+        <!-- Back to Landing Page Button -->
+        <br>
+        <a href="/">Back to Landing</a>
+    </form>

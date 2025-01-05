@@ -8,6 +8,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const paketRouter = require('./routes/paket');
+const PaketBundling = require('./models/PaketBundling');
 
 // Inisialisasi app terlebih dahulu
 const app = express();
@@ -22,9 +23,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Add session middleware here
 app.use(session({
-  secret: 'your-secret-key', // You can use a better secret here
-  resave: false,
-  saveUninitialized: true
+    secret: 'your-secret-key', // You can use a better secret here
+    resave: false,
+    saveUninitialized: true
 }));
 
 app.use(bodyParser.json());
@@ -46,14 +47,23 @@ app.use('/paket', paketRouter); // Hanya perlu dipanggil sekali
 app.use('/', transaksiRouter);
 
 // Landing page route
-app.get('/', (req, res) => {
-    res.render('landing');  // Render the landing page
-});
+app.get('/', async(req, res) => {
+    try {
+        // Ambil daftar paket bundling dari database
+        const paket = await PaketBundling.findAll();
+
+        // Render halaman landing dengan data paket
+        res.render('landing', { paket });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching paket data');
+    }
+})
 
 // Database Sync and Start Server
 sequelize.sync()
-  .then(() => { 
-    console.log('Database connected!');
-    app.listen(3000, () => console.log('Server running on http://localhost:3000'));
-  })
-  .catch(err => console.error('Database connection failed:', err));
+    .then(() => {
+        console.log('Database connected!');
+        app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+    })
+    .catch(err => console.error('Database connection failed:', err));
