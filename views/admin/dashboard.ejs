@@ -56,6 +56,17 @@
         .btn-logout:hover {
             background-color: #c82333;
         }
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
     </style>
 </head>
 
@@ -65,7 +76,6 @@
     </header>
 
     <div class="container">
-
         <!-- Display the list of transactions -->
         <h3>Transactions</h3>
         <ul>
@@ -79,11 +89,15 @@
                         <p><strong>Jenis Pembayaran:</strong> <%= transaksi.jenis_pembayaran %></p>
                         <p><strong>Bukti Pembayaran:</strong></p>
                         <% if (transaksi.Bukti_Pembayaran) { %>
+                            <!-- Display the image using Base64 -->
                             <img src="data:image/png;base64,<%= transaksi.Bukti_Pembayaran %>" alt="Bukti Pembayaran" style="max-width: 200px; height: auto;">
                         <% } else { %>
                             <p>No payment proof available.</p>
                         <% } %>
-                        <a href="/admin/transaksi/<%= transaksi.ID_Transaksi %>/delete">Hapus</a>
+                        <!-- Delete button with a POST request -->
+                        <form action="/admin/transaksi/<%= transaksi.ID_Transaksi %>/delete" method="POST" style="display: inline;">
+                            <button type="submit" class="btn-delete">Hapus</button>
+                        </form>
                     </li>
                 <% }); %>
             <% } else { %>

@@ -83,109 +83,109 @@ exports.showAdminDashboard = (req, res) => {
     res.render('admin/dashboard', { user: req.session.user });
 };
 
-// Update Menambahkan paket baru (admin)
-exports.createPaket = async (req, res) => {
-    try {
-        const { Nama_paket, Deskripsi, Harga } = req.body;
-        let Gambar = null;
+// // Update Menambahkan paket baru (admin)
+// exports.createPaket = async (req, res) => {
+//     try {
+//         const { Nama_paket, Deskripsi, Harga } = req.body;
+//         let Gambar = null;
 
-        // Log the received data for debugging
-        console.log('Received data:', { Nama_paket, Deskripsi, Harga });
+//         // Log the received data for debugging
+//         console.log('Received data:', { Nama_paket, Deskripsi, Harga });
 
-        if (req.file) {
-            Gambar = fs.readFileSync(req.file.path); // Read the uploaded file as a BLOB
-            console.log('File uploaded:', req.file);
-        }
+//         if (req.file) {
+//             Gambar = fs.readFileSync(req.file.path); // Read the uploaded file as a BLOB
+//             console.log('File uploaded:', req.file);
+//         }
 
-        // Create the new package
-        await PaketBundling.create({ Nama_paket, Deskripsi, Harga, Gambar });
+//         // Create the new package
+//         await PaketBundling.create({ Nama_paket, Deskripsi, Harga, Gambar });
 
-        // Delete the temporary file after saving
-        if (req.file) fs.unlinkSync(req.file.path);
+//         // Delete the temporary file after saving
+//         if (req.file) fs.unlinkSync(req.file.path);
 
-        res.redirect('/admin/paket');
-    } catch (err) {
-        console.error('Error adding paket bundling:', err);
-        res.status(500).send('Error adding paket bundling.');
-    }
-};
-// Menampilkan semua paket bundling
-exports.getAllPaket = async (req, res) => {
-    try {
-      const paket = await PaketBundling.findAll();
-      res.render('paket/list', { paket });
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('Error fetching paket bundling data.');
-    }
-};;
+//         res.redirect('/admin/paket');
+//     } catch (err) {
+//         console.error('Error adding paket bundling:', err);
+//         res.status(500).send('Error adding paket bundling.');
+//     }
+// };
+// // Menampilkan semua paket bundling
+// exports.getAllPaket = async (req, res) => {
+//     try {
+//       const paket = await PaketBundling.findAll();
+//       res.render('paket/list', { paket });
+//     } catch (err) {
+//       console.error(err);
+//       res.status(500).send('Error fetching paket bundling data.');
+//     }
+// };;
 
-exports.getPaketById = async (req, res) => {
-    try {
-      const paket = await PaketBundling.findByPk(req.params.id);
+// exports.getPaketById = async (req, res) => {
+//     try {
+//       const paket = await PaketBundling.findByPk(req.params.id);
   
-      if (!paket) {
-        return res.status(404).send('Paket not found.');
-      }
+//       if (!paket) {
+//         return res.status(404).send('Paket not found.');
+//       }
   
-      const gambarBase64 = paket.Gambar ? paket.Gambar.toString('base64') : null;
+//       const gambarBase64 = paket.Gambar ? paket.Gambar.toString('base64') : null;
   
-      res.render('paket/detail', { paket, gambarBase64 });
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('Error fetching paket.');
-    }
-};;
+//       res.render('paket/detail', { paket, gambarBase64 });
+//     } catch (err) {
+//       console.error(err);
+//       res.status(500).send('Error fetching paket.');
+//     }
+// };;
 
-// Mengupdate paket
-exports.updatePaket = async (req, res) => {
-    try {
-        const { Nama_paket, Deskripsi, Gambar, Harga } = req.body;
-        const paket = await PaketBundling.findByPk(req.params.id);
-        if (!paket) return res.status(404).send('Paket not found.');
+// // Mengupdate paket
+// exports.updatePaket = async (req, res) => {
+//     try {
+//         const { Nama_paket, Deskripsi, Gambar, Harga } = req.body;
+//         const paket = await PaketBundling.findByPk(req.params.id);
+//         if (!paket) return res.status(404).send('Paket not found.');
 
-        await paket.update({ Nama_paket, Deskripsi, Gambar, Harga });
-        res.redirect('/admin/dashboard');
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error updating paket bundling.');
-    }
-};
+//         await paket.update({ Nama_paket, Deskripsi, Gambar, Harga });
+//         res.redirect('/admin/dashboard');
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('Error updating paket bundling.');
+//     }
+// };
 
-// Menghapus paket
-exports.deletePaket = async (req, res) => {
-    try {
-        const paket = await PaketBundling.findByPk(req.params.id);
-        if (!paket) return res.status(404).send('Paket not found.');
+// // Menghapus paket
+// exports.deletePaket = async (req, res) => {
+//     try {
+//         const paket = await PaketBundling.findByPk(req.params.id);
+//         if (!paket) return res.status(404).send('Paket not found.');
 
-        await paket.destroy();
-        res.redirect('/admin/dashboard');
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error deleting paket bundling.');
-    }
-};
+//         await paket.destroy();
+//         res.redirect('/admin/dashboard');
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('Error deleting paket bundling.');
+//     }
+// };
 
-exports.getAllTransaksi = async (req, res) => {
-    try {
-        // Fetch all transactions from the database
-        const transaksi = await Transaksi.findAll(); // Ensure you have a `Transaksi` model
-        res.render('admin/transaksi', { transaksi });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error fetching transactions.');
-    }
-};
+// exports.getAllTransaksi = async (req, res) => {
+//     try {
+//         // Fetch all transactions from the database
+//         const transaksi = await Transaksi.findAll(); // Ensure you have a `Transaksi` model
+//         res.render('admin/transaksi', { transaksi });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('Error fetching transactions.');
+//     }
+// };
 
-exports.deleteTransaksi = async (req, res) => {
-    try {
-        const transaksi = await Transaksi.findByPk(req.params.id);
-        if (!transaksi) return res.status(404).send('Transaction not found.');
+// exports.deleteTransaksi = async (req, res) => {
+//     try {
+//         const transaksi = await Transaksi.findByPk(req.params.id);
+//         if (!transaksi) return res.status(404).send('Transaction not found.');
 
-        await transaksi.destroy();
-        res.redirect('/admin/transaksi');
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error deleting transaction.');
-    }
-};
+//         await transaksi.destroy();
+//         res.redirect('/admin/transaksi');
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('Error deleting transaction.');
+//     }
+// };
