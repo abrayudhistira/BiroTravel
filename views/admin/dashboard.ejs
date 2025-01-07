@@ -92,7 +92,12 @@
                         <p><strong>ID Paket:</strong> <%= transaksi.ID_Paket %></p>
                         <p><strong>Jumlah Pembayaran:</strong> <%= transaksi.Jumlah_Pembayaran %></p>
                         <p><strong>Jenis Pembayaran:</strong> <%= transaksi.jenis_pembayaran %></p>
-                        <p><strong>Bukti Pembayaran:</strong> <%= transaksi.Bukti_Pembayaran %></p>
+                        <p><strong>Bukti Pembayaran:</strong></p>
+                        <% if (transaksi.Bukti_Pembayaran) { %>
+                            <img src="data:image/png;base64,<%= transaksi.Bukti_Pembayaran %>" alt="Bukti Pembayaran" style="max-width: 200px; height: auto;">
+                        <% } else { %>
+                            <p>No payment proof available.</p>
+                        <% } %>
                         <a href="/admin/transaksi/<%= transaksi.ID_Transaksi %>/delete">Hapus</a>
                     </li>
                 <% }); %>

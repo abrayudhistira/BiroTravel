@@ -38,28 +38,25 @@ exports.loginadmin = async (req, res) => {
         res.status(500).send('Internal server error');
     }
 };
-// Update the showDashboard controller
-exports.showDashboard = async(req, res) => {
-    if (req.session.user && req.session.user.role === 'admin') {
-        try {
-            // Fetch all users from the database
-            const users = await User.findAll();
+// Update the showDashboard controller with base64 conversion
+exports.showDashboard = async (req, res) => {
+    try {
+        const users = await User.findAll();
+        const transaksi = await Transaksi.findAll();
 
-            // Fetch all transaksi from the database
-            const transaksi = await Transaksi.findAll();
+        // Convert Bukti_Pembayaran (BLOB) to Base64 for each transaction
+        const transaksiWithBase64 = transaksi.map(transaksi => {
+            const buktiBase64 = transaksi.Bukti_Pembayaran ? transaksi.Bukti_Pembayaran.toString('base64') : null;
+            return {
+                ...transaksi.get({ plain: true }),
+                Bukti_Pembayaran: buktiBase64
+            };
+        });
 
-            // Render the dashboard page and pass the users and transaksi to the view
-            res.render('admin/dashboard', {
-                title: 'Admin Dashboard',
-                users: users,
-                transaksi: transaksi
-            });
-        } catch (err) {
-            console.error('Error fetching users:', err);
-            res.status(500).send('Internal server error');
-        }
-    } else {
-        res.status(403).send('Access denied');
+        res.render('admin/dashboard', { title: 'Admin Dashboard', users, transaksi: transaksiWithBase64 });
+    } catch (err) {
+        console.error('Error fetching dashboard data:', err);
+        res.status(500).send('Internal server error');
     }
 };
 
