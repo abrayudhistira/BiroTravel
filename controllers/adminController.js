@@ -128,22 +128,36 @@ exports.getPaketById = async (req, res) => {
       console.error(err);
       res.status(500).send('Error fetching paket.');
     }
-  };;
+};;
 
-// Mengupdate paket
 exports.updatePaket = async (req, res) => {
     try {
-        const { Nama_paket, Deskripsi, Gambar, Harga } = req.body;
-        const paket = await PaketBundling.findByPk(req.params.id);
-        if (!paket) return res.status(404).send('Paket not found.');
+        const paketId = req.params.id;
+        const { Nama_paket, Deskripsi, Harga } = req.body;
+        const gambar = req.files ? req.files.Gambar : null;
 
-        await paket.update({ Nama_paket, Deskripsi, Gambar, Harga });
-        res.redirect('/admin/dashboard');
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error updating paket bundling.');
+        const paket = await PaketBundling.findByPk(paketId);
+        if (!paket) {
+            return res.status(404).send('Paket not found.');
+        }
+
+        // Update fields
+        paket.Nama_paket = Nama_paket;
+        paket.Deskripsi = Deskripsi;
+        paket.Harga = Harga;
+
+        if (gambar) {
+            paket.Gambar = gambar.data;
+        }
+
+        await paket.save();
+        res.redirect('/admin/paket'); // Redirect ke daftar paket setelah update
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error updating paket.');
     }
 };
+
 
 // Menghapus paket
 exports.deletePaket = async (req, res) => {

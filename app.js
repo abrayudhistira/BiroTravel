@@ -8,6 +8,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const paketRouter = require('./routes/paket');
+const PaketBundling = require('./models/PaketBundling');
 
 // Inisialisasi app terlebih dahulu
 const app = express();
@@ -46,9 +47,18 @@ app.use('/paket', paketRouter); // Hanya perlu dipanggil sekali
 app.use('/', transaksiRouter);
 
 // Landing page route
-app.get('/', (req, res) => {
-    res.render('landing');  // Render the landing page
-});
+app.get('/', async (req, res) => {
+    try {
+        // Ambil daftar paket bundling dari database
+        const paket = await PaketBundling.findAll();
+        
+        // Render halaman landing dengan data paket
+        res.render('landing', { paket });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching paket data');
+    }
+})
 
 // Database Sync and Start Server
 sequelize.sync()

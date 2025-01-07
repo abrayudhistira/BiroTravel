@@ -23,6 +23,8 @@ router.get('/paket/new', authenticate, isAdmin, (req, res) => {
     res.render('admin/newPaket', { title: 'Add New Paket' });
 });// Log out and destroy session
 
+
+
 // CRUD Paket Bundling
 router.get('/paket', authenticate, isAdmin, getAllPaket); // Lihat semua paket
 router.post('/paket/new', authenticate, isAdmin, createPaket); // Tambah paket baru

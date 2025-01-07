@@ -3,19 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome</title>
-    <link rel="stylesheet" href="/styles.css"> <!-- Optional, for custom styles -->
+    <title>Welcome to Biro Travel</title>
+    <!-- Link Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 100px;
+            text-align: center;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .buttons a {
+            margin: 10px;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Biro Travel</h1>
-        <p>Please login or register to access your dashboard.</p>
 
-        <!-- Buttons to navigate to login and register pages -->
-        <div class="buttons">
-            <a href="/user/login"><button>Login</button></a>
-            <a href="/user/register"><button>Register</button></a>
-        </div>
+<div class="container">
+    <h1>Welcome to Biro Travel</h1>
+    <p>Please login or register to access your dashboard.</p>
+
+    <!-- Buttons to navigate to login and register pages -->
+    <div class="buttons">
+        <a href="/user/login">
+            <button class="btn btn-primary">Login</button>
+        </a>
+        <a href="/user/register">
+            <button class="btn btn-success">Register</button>
+        </a>
     </div>
+
+    <hr>
+    
+    <!-- Display Paket Bundling -->
+    <h2>Our Available Paket Bundling</h2>
+    <div class="row">
+        <% paket.forEach(p => { %>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <% if (p.Gambar) { %>
+                        <img src="data:image/png;base64,<%= p.Gambar.toString('base64') %>" class="card-img-top" alt="<%= p.Nama_paket %>">
+                    <% } else { %>
+                        <img src="https://via.placeholder.com/300?text=No+Image" class="card-img-top" alt="Gambar tidak tersedia">
+                    <% } %>
+                    <div class="card-body">
+                        <h5 class="card-title"><%= p.Nama_paket %></h5>
+                        <p class="card-text"><%= p.Deskripsi %></p>
+                        <p class="text-success font-weight-bold">Rp <%= p.Harga %></p>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
