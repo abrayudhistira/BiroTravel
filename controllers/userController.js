@@ -3,16 +3,17 @@ const User = require('../models/Users');
 const PaketBundling = require('../models/PaketBundling');
 
 // Register user
-exports.register = async (req, res) => {
-    const { username, password } = req.body;
+// Register user
+exports.register = async(req, res) => {
+    const { username, password, nama, email, alamat, no_telp } = req.body;
 
     try {
-        // Validate input
-        if (!username || !password) {
+        // Validasi input
+        if (!username || !password || !nama || !email || !alamat || !no_telp) {
             return res.status(400).send('Please fill in all fields.');
         }
 
-        // Check if username already exists
+        // Cek apakah username sudah ada
         const existingUser = await User.findOne({ where: { username } });
         if (existingUser) {
             return res.status(400).send('Username is already taken.');
@@ -21,13 +22,18 @@ exports.register = async (req, res) => {
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create new user
+        // Buat user baru
         const newUser = await User.create({
             username,
-            password: hashedPassword
+            password: hashedPassword,
+            nama,
+            email,
+            alamat,
+            no_telp,
+            role: 'user' // Default role adalah 'user'
         });
 
-        // Redirect to login page after successful registration
+        // Redirect ke halaman login setelah registrasi berhasil
         res.redirect('/user/login');
     } catch (error) {
         console.error(error);
@@ -36,7 +42,7 @@ exports.register = async (req, res) => {
 };
 
 // Login user
-exports.login = async (req, res) => {
+exports.login = async(req, res) => {
     const { username, password } = req.body;
 
     try {
@@ -83,7 +89,7 @@ exports.showRegister = (req, res) => {
 //     try {
 //       // Ambil data paket dari database
 //       const paket = await PaketBundling.findAll();
-  
+
 //       // Kirim data paket ke view dashboard
 //       res.render('user/dashboard', { paket });
 //     } catch (err) {
@@ -91,9 +97,9 @@ exports.showRegister = (req, res) => {
 //       res.status(500).send('Error fetching data.');
 //     }
 // };
-  
+
 // Controller untuk menampilkan dashboard
-exports.showDashboard = async (req, res) => {
+exports.showDashboard = async(req, res) => {
     try {
         // Pastikan user ada di session
         if (!req.session.user) {
@@ -104,9 +110,9 @@ exports.showDashboard = async (req, res) => {
         const paket = await PaketBundling.findAll();
 
         // Kirim data paket dan user ke view dashboard
-        res.render('user/dashboard', { 
+        res.render('user/dashboard', {
             user: req.session.user, // Kirim data user yang ada di session
-            paket 
+            paket
         });
     } catch (err) {
         console.error(err);

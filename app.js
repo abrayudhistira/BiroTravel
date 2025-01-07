@@ -23,9 +23,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Add session middleware here
 app.use(session({
-  secret: 'your-secret-key', // You can use a better secret here
-  resave: false,
-  saveUninitialized: true
+    secret: 'your-secret-key', // You can use a better secret here
+    resave: false,
+    saveUninitialized: true
 }));
 
 app.use(bodyParser.json());
@@ -41,17 +41,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.use('/user', userRouter);
 app.use('/admin', adminRouter);
-app.use('/paket', paketRouter); // Hanya perlu dipanggil sekali
+app.use('/admin', paketRouter); // Hanya perlu dipanggil sekali
 
 // Tambahkan routes untuk transaksi
 app.use('/', transaksiRouter);
 
 // Landing page route
-app.get('/', async (req, res) => {
+app.get('/', async(req, res) => {
     try {
         // Ambil daftar paket bundling dari database
         const paket = await PaketBundling.findAll();
-        
+
         // Render halaman landing dengan data paket
         res.render('landing', { paket });
     } catch (err) {
@@ -62,8 +62,8 @@ app.get('/', async (req, res) => {
 
 // Database Sync and Start Server
 sequelize.sync()
-  .then(() => { 
-    console.log('Database connected!');
-    app.listen(3000, () => console.log('Server running on http://localhost:3000'));
-  })
-  .catch(err => console.error('Database connection failed:', err));
+    .then(() => {
+        console.log('Database connected!');
+        app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+    })
+    .catch(err => console.error('Database connection failed:', err));

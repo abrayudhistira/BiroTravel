@@ -3,6 +3,7 @@ const User = require('../models/Users');
 const fs = require('fs');
 const session = require('express-session');
 const PaketBundling = require('../models/PaketBundling');
+const Transaksi = require('../models/Transaksi'); // Adjust the path if necessary
 
 // Controller for showing login form
 exports.showLoginAdmin = (req, res) => {
@@ -37,17 +38,21 @@ exports.loginadmin = async (req, res) => {
         res.status(500).send('Internal server error');
     }
 };
-
-exports.showDashboard = async (req, res) => {
+// Update the showDashboard controller
+exports.showDashboard = async(req, res) => {
     if (req.session.user && req.session.user.role === 'admin') {
         try {
             // Fetch all users from the database
             const users = await User.findAll();
 
-            // Render the dashboard page and pass the users to the view
+            // Fetch all transaksi from the database
+            const transaksi = await Transaksi.findAll();
+
+            // Render the dashboard page and pass the users and transaksi to the view
             res.render('admin/dashboard', {
                 title: 'Admin Dashboard',
-                users: users
+                users: users,
+                transaksi: transaksi
             });
         } catch (err) {
             console.error('Error fetching users:', err);
@@ -81,25 +86,30 @@ exports.showAdminDashboard = (req, res) => {
     res.render('admin/dashboard', { user: req.session.user });
 };
 
-// Menambahkan paket baru (admin)
+// Update Menambahkan paket baru (admin)
 exports.createPaket = async (req, res) => {
     try {
-      const { Nama_paket, Deskripsi, Harga } = req.body;
-      let Gambar = null;
-  
-      if (req.file) {
-        Gambar = fs.readFileSync(req.file.path); // Membaca file gambar sebagai BLOB
-      }
-  
-      await PaketBundling.create({ Nama_paket, Deskripsi, Harga, Gambar });
-  
-      // Hapus file sementara setelah tersimpan
-      if (req.file) fs.unlinkSync(req.file.path);
-  
-      res.redirect('/admin/paket');
+        const { Nama_paket, Deskripsi, Harga } = req.body;
+        let Gambar = null;
+
+        // Log the received data for debugging
+        console.log('Received data:', { Nama_paket, Deskripsi, Harga });
+
+        if (req.file) {
+            Gambar = fs.readFileSync(req.file.path); // Read the uploaded file as a BLOB
+            console.log('File uploaded:', req.file);
+        }
+
+        // Create the new package
+        await PaketBundling.create({ Nama_paket, Deskripsi, Harga, Gambar });
+
+        // Delete the temporary file after saving
+        if (req.file) fs.unlinkSync(req.file.path);
+
+        res.redirect('/admin/paket');
     } catch (err) {
-      console.error(err);
-      res.status(500).send('Error adding paket bundling.');
+        console.error('Error adding paket bundling:', err);
+        res.status(500).send('Error adding paket bundling.');
     }
 };
 // Menampilkan semua paket bundling
@@ -130,34 +140,20 @@ exports.getPaketById = async (req, res) => {
     }
 };;
 
+// Mengupdate paket
 exports.updatePaket = async (req, res) => {
     try {
-        const paketId = req.params.id;
-        const { Nama_paket, Deskripsi, Harga } = req.body;
-        const gambar = req.files ? req.files.Gambar : null;
+        const { Nama_paket, Deskripsi, Gambar, Harga } = req.body;
+        const paket = await PaketBundling.findByPk(req.params.id);
+        if (!paket) return res.status(404).send('Paket not found.');
 
-        const paket = await PaketBundling.findByPk(paketId);
-        if (!paket) {
-            return res.status(404).send('Paket not found.');
-        }
-
-        // Update fields
-        paket.Nama_paket = Nama_paket;
-        paket.Deskripsi = Deskripsi;
-        paket.Harga = Harga;
-
-        if (gambar) {
-            paket.Gambar = gambar.data;
-        }
-
-        await paket.save();
-        res.redirect('/admin/paket'); // Redirect ke daftar paket setelah update
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error updating paket.');
+        await paket.update({ Nama_paket, Deskripsi, Gambar, Harga });
+        res.redirect('/admin/dashboard');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error updating paket bundling.');
     }
 };
-
 
 // Menghapus paket
 exports.deletePaket = async (req, res) => {
@@ -170,5 +166,29 @@ exports.deletePaket = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send('Error deleting paket bundling.');
+    }
+};
+
+exports.getAllTransaksi = async (req, res) => {
+    try {
+        // Fetch all transactions from the database
+        const transaksi = await Transaksi.findAll(); // Ensure you have a `Transaksi` model
+        res.render('admin/transaksi', { transaksi });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching transactions.');
+    }
+};
+
+exports.deleteTransaksi = async (req, res) => {
+    try {
+        const transaksi = await Transaksi.findByPk(req.params.id);
+        if (!transaksi) return res.status(404).send('Transaction not found.');
+
+        await transaksi.destroy();
+        res.redirect('/admin/transaksi');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error deleting transaction.');
     }
 };
