@@ -47,3 +47,14 @@ exports.showTransaksi = async(req, res) => {
         res.status(500).send('Error fetching transaksi details.');
     }
 };
+
+// exports.deleteTransaksi = async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         await Transaksi.destroy({ where: { ID_Transaksi: id } });
+//         res.redirect('/admin/dashboard');
+//     } catch (err) {
+//         console.error('Error deleting transaction:', err);
+//         res.status(500).send('Error deleting transaction.');
+//     }
+// };

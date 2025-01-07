@@ -65,21 +65,6 @@
     </header>
 
     <div class="container">
-        <h2>Admin Dashboard</h2>
-
-        <!-- Display the list of users -->
-        <h3>Users</h3>
-        <ul>
-            <% if (users && users.length > 0) { %>
-                <% users.forEach(user => { %>
-                    <li>
-                        <strong><%= user.username %></strong> (<%= user.role %>)
-                    </li>
-                <% }); %>
-            <% } else { %>
-                <li>No users found.</li>
-            <% } %>
-        </ul>
 
         <!-- Display the list of transactions -->
         <h3>Transactions</h3>

@@ -58,5 +58,7 @@ router.post('/transaksi', upload.single('Bukti_Pembayaran'), async(req, res) => 
 
 // Route untuk melihat detail transaksi
 router.get('/transaksi/:id', transaksiController.showTransaksi);
+// Route untuk menghapus transaksi
+//router.post('/transaksi/:id/delete', authenticate, isAdmin, deleteTransaksi);
 
 module.exports = router;
