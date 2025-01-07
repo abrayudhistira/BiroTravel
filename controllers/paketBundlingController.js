@@ -17,24 +17,26 @@ exports.showAddForm = (req, res) => {
   res.render('admin/newPaket', { title: 'Add New Paket' });
 };
 
-// Menambahkan paket bundling baru
+// Updated Menambahkan paket bundling baru
 exports.addPaket = async (req, res) => {
   try {
-    const { Nama_paket, Deskripsi, Harga } = req.body;
-    let Gambar = null;
+      const { Nama_paket, Deskripsi, Harga } = req.body;
+      let Gambar = null;
 
-    if (req.file) {
-      Gambar = fs.readFileSync(req.file.path); // Membaca gambar sebagai BLOB
-    }
+      if (req.file) {
+          Gambar = fs.readFileSync(req.file.path); // Read the uploaded file as a BLOB
+      }
 
-    await PaketBundling.create({ Nama_paket, Deskripsi, Harga, Gambar });
+      // Create the new package
+      await PaketBundling.create({ Nama_paket, Deskripsi, Harga, Gambar });
 
-    if (req.file) fs.unlinkSync(req.file.path); // Hapus file sementara setelah disimpan
+      // Delete the temporary file after saving
+      if (req.file) fs.unlinkSync(req.file.path);
 
-    res.redirect('/admin/paket');
+      res.redirect('/admin/paket');
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Error adding paket bundling.');
+      console.error('Error adding paket bundling:', err);
+      res.status(500).send('Error adding paket bundling.');
   }
 };
 
@@ -81,5 +83,20 @@ exports.deletePaket = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error deleting paket bundling.');
+  }
+};
+
+// Mengupdate paket
+exports.updatePaket = async (req, res) => {
+  try {
+      const { Nama_paket, Deskripsi, Gambar, Harga } = req.body;
+      const paket = await PaketBundling.findByPk(req.params.id);
+      if (!paket) return res.status(404).send('Paket not found.');
+
+      await paket.update({ Nama_paket, Deskripsi, Gambar, Harga });
+      res.redirect('/admin/dashboard');
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error updating paket bundling.');
   }
 };

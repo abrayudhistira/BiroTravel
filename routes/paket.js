@@ -1,27 +1,30 @@
 const express = require('express');
 const { 
-  getAllPaket, 
+  getAllPaket,
+  updatePaket, 
+  deletePaket, 
   showAddForm, 
-  addPaket, 
   showEditForm, 
-  editPaket, 
-  deletePaket 
+  addPaket,
+  editPaket
 } = require('../controllers/paketBundlingController');
-const { authenticate } = require('../middlewares/auth');
-const upload = require('../middlewares/upload'); 
-const isAdmin = require('../middlewares/isAdmin');
+const { authenticate, isAdmin } = require('../middlewares/auth');
+const upload = require('../middlewares/upload'); // Middleware for file uploads
 
 const router = express.Router();
 
-// Routes untuk user biasa (melihat paket bundling)
-router.get('/', authenticate, getAllPaket); // Menampilkan paket untuk user biasa
+// Routes for users (view packages)
+router.get('/', authenticate, getAllPaket); // View packages for regular users
 
-// Routes untuk admin (melihat semua paket bundling dan CRUD)
-router.get('/admin/paket', authenticate, isAdmin, getAllPaket); // Menampilkan paket untuk admin
-router.get('/admin/paket/new', authenticate, isAdmin, showAddForm); // Form tambah paket baru
-router.post('/admin/paket', authenticate, isAdmin, upload.single('Gambar'), addPaket); // Menambah paket baru
-router.get('/admin/paket/edit/:id', authenticate, isAdmin, showEditForm); // Form edit paket
-router.post('/admin/paket/edit/:id', authenticate, isAdmin, upload.single('Gambar'), editPaket); // Mengedit paket
-router.post('/admin/paket/delete/:id', authenticate, isAdmin, deletePaket); // Menghapus paket
+// Routes for admins (CRUD operations)
+router.get('/paket', authenticate, isAdmin, getAllPaket); // View packages for admin
+
+router.get('/paket/new', authenticate, isAdmin, showAddForm); // Show form to add a new package
+router.post('/paket/new', authenticate, isAdmin, upload.single('Gambar'), addPaket); // Add a new package
+
+router.get('/paket/edit/:id', authenticate, isAdmin, showEditForm); // Show form to edit a package
+router.post('/paket/edit/:id', authenticate, isAdmin, upload.single('Gambar'), editPaket); // Edit a package
+
+router.post('/paket/delete/:id', authenticate, isAdmin, deletePaket); // Delete a package
 
 module.exports = router;
