@@ -1,82 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daftar Paket Bundling</title>
   <!-- Bootstrap CSS -->
-  <link 
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" 
-    rel="stylesheet" 
-    integrity="sha384-MaM9dXL-TUC9vL86Wya6vOYdNHb3mbH9HJ1PpLnsLb2/6a5x+uGni2grkx9Te8rN" 
-    crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-MaM9dXL-TUC9vL86Wya6vOYdNHb3mbH9HJ1PpLnsLb2/6a5x+uGni2grkx9Te8rN" crossorigin="anonymous">
   <style>
-    body {
-      background-color: #f8f9fa;
+    .container{
+      padding: 10vh;
     }
-    .list-group-item {
-      border: 1px solid #ddd;
+
+    .header {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .header-line {
+      height: 4px;
+      background-color: #f96332;
+      width: 176vh;
+      margin-bottom: 20px;
+    }
+
+    /* Bundle Card */
+    .bundle-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 15px 20px;
+      margin-bottom: 20px;
+    }
+
+    .bundle-card img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
       border-radius: 10px;
     }
-    .list-group-item h2 {
-      color: #007bff;
+
+    .bundle-info {
+      flex: 1;
+      margin-left: 20px;
     }
-    .btn-custom {
-      background-color: #28a745;
-      color: #fff;
+
+    .bundle-info h4 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: bold;
     }
-    .btn-custom:hover {
-      background-color: #218838;
+
+    .bundle-info p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #555;
     }
-    .btn-warning, .btn-danger {
-      margin-right: 5px;
+
+    .bundle-info .location {
+      background-color: black;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 50px;
+      font-size: 12px;
+    }
+
+    .bundle-price {
+      font-size: 18px;
+      font-weight: bold;
+      margin-left: 5px;
+      margin-bottom: 10vh;
+    }
+
+    /* Action Buttons */
+    .bundle-actions {
+      display: flex;
+      align-items: center;
+      margin-top: 5vh;
+      gap: 10px;
+    }
+
+    .bundle-actions .btn {
+      color: black;
+      font-size: 20px;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      background-color: #f5f5f5;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .bundle-actions .btn:hover {
+      color: white;
+      background-color: black;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Add Button */
+    .btn-add {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      font-size: 30px;
+      background-color: #FF7F50;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      text-decoration: none;
+    }
+
+    .btn-add:hover {
+      background-color: white;
+      color: #FF7F50;
+      border: 1px solid #FF7F50;
     }
   </style>
 </head>
+
 <body>
 
-<div class="container mt-5">
-  <h1 class="text-center text-primary mb-4">Daftar Paket Bundling</h1>
+  <div class="container mt-5">
+    <!-- Title Section -->
+    <div class="header">VIEW BUNDLING</div>
+    <div class="header-line"></div>
 
-  <!-- Button Add Paket -->
-  <div class="text-right mb-4">
-    <a href="/admin/paket/new" class="btn btn-custom">Tambah Paket Baru</a>
+    <div id="bundling-container">
+      <% if (paket && paket.length> 0) { %>
+        <% paket.forEach(function(bundle) { %>
+          <div class="bundle-card">
+            <!-- Image -->
+            <% if (bundle.Gambar) { %>
+              <img src="data:image/png;base64,<%= bundle.Gambar.toString('base64') %>" alt="<%= bundle.Nama_paket %>" />
+              <% } else { %>
+                <img src="/images/placeholder.png" alt="Image Placeholder">
+                <% } %>
+
+                  <!-- Bundle Info -->
+                  <div class="bundle-info">
+                    <h4>
+                      <%= bundle.Nama_paket %>
+                    </h4>
+                    <p>
+                      <%= bundle.Deskripsi %>
+                    </p>
+                    <span class="location">Lokasi</span>
+                  </div>
+
+                  <!-- Price -->
+                  <div class="bundle-price">Rp <%= bundle.Harga.toLocaleString() %>
+                  </div>
+
+                  <!-- Actions -->
+                  <div class="bundle-actions">
+                    <!-- Edit Button -->
+                    <a href="/admin/paket/edit/<%= bundle.ID_Paket %>" class="btn">
+                      <i class="bi bi-pencil" title="Edit"></i>
+                    </a>
+                    <!-- Delete Button -->
+                    <a href="/admin/paket/delete/<%= bundle.ID_Paket %>" class="btn"
+                      onclick="return confirm('Apakah Anda yakin ingin menghapus paket ini?')">
+                      <i class="bi bi-trash" title="Delete"></i>
+                    </a>
+                  </div>
+          </div>
+          <% }); %>
+            <% } else { %>
+              <p>No bundling data available.</p>
+              <% } %>
+    </div>
+
+    <!-- Add Button -->
+    <a href="/admin/paket/new" class="btn btn-add">
+      <i class="bi bi-plus-circle"></i>
+    </a>
   </div>
 
-  <ul class="list-group">
-    <% paket.forEach(p => { %>
-      <li class="list-group-item p-4 shadow-sm mb-3">
-        <h2><%= p.Nama_paket %></h2>
-        <p class="text-muted"><%= p.Deskripsi %></p>
-        <p><strong>Harga:</strong> <span class="text-success">Rp <%= p.Harga %></span></p>
-        <% if (p.Gambar) { %>
-          <img src="data:image/png;base64,<%= p.Gambar.toString('base64') %>" alt="<%= p.Nama_paket %>" class="img-thumbnail my-3" style="width: 150px;">
-        <% } else { %>
-          <p class="text-warning">[Gambar tidak tersedia]</p>
-        <% } %>
-        <div class="mt-3">
-          <a href="/admin/paket/edit/<%= p.ID_Paket %>" class="btn btn-warning btn-sm">Edit</a>
-          <form action="/admin/paket/delete/<%= p.ID_Paket %>" method="POST" style="display:inline;">
-            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus paket ini?')">Hapus</button>
-          </form>
-        </div>
-      </li>
-    <% }); %>
-  </ul>
-</div>
-
-<!-- Bootstrap JS and dependencies -->
-<script 
-  src="https://code.jquery.com/jquery-3.5.1.slim.min.js" 
-  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" 
-  crossorigin="anonymous"></script>
-<script 
-  src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js" 
-  integrity="sha384-vk1F5pOWT+IrpZeMmvbkoDzV33p6wEaKPCALNfhxxp9TY/UT/6YSFz8m8I8L93D3" 
-  crossorigin="anonymous"></script>
-<script 
-  src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" 
-  integrity="sha384-B4gt1jrGC7Jh4AgjC07vxZkvY51qmxqSACxjNPWtxJOPPJG1SkFtJdZGBGh1mEOn" 
-  crossorigin="anonymous"></script>
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"
+    integrity="sha384-vk1F5pOWT+IrpZeMmvbkoDzV33p6wEaKPCALNfhxxp9TY/UT/6YSFz8m8I8L93D3"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgjC07vxZkvY51qmxqSACxjNPWtxJOPPJG1SkFtJdZGBGh1mEOn"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>
