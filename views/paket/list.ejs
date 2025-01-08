@@ -5,37 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daftar Paket Bundling</title>
   <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-MaM9dXL-TUC9vL86Wya6vOYdNHb3mbH9HJ1PpLnsLb2/6a5x+uGni2grkx9Te8rN" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+
     .navbar {
       background-color: #f5f5f5;
       padding: 0.5rem 1rem;
     }
 
     .navbar-brand img {
-      max-width: 100px;
-      /* Maksimal lebar gambar */
+            max-width: 100px;
+            /* Maksimal lebar gambar */
       max-height: 100px;
-      /* Maksimal tinggi gambar */
-      width: auto;
+       /* Maksimal tinggi gambar */
+       width: auto;
       /* Menyesuaikan lebar otomatis */
       height: auto;
       /* Menyesuaikan tinggi otomatis */
     }
 
     .navbar-nav .nav-link {
-      font-size: 1rem;
-      /* Ukuran font default */
-      font-weight: bold;
-      transition: transform 0.3s ease, color 0.3s ease;
-      /* Tambahkan animasi */
-      color: #343a40;
-      /* Warna default teks */
-    }
+            font-size: 1rem;
+            /* Ukuran font default */
+            font-weight: bold;
+            transition: transform 0.3s ease, color 0.3s ease;
+            /* Tambahkan animasi */
+            color: #343a40;
+            /* Warna default teks */
+        }
 
     .navbar-nav .nav-link:hover {
       transform: scale(1.2);
@@ -82,43 +84,44 @@
     .header-line {
       height: 4px;
       background-color: #f96332;
-      width: 100%;
-      /* Changed to 100% for better responsiveness */
+      width: 100px;
       margin-bottom: 20px;
     }
 
     /* Bundle Card */
     .bundle-card {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 15px 20px;
-      margin-bottom: 20px;
-    }
+  position: relative; /* Menambahkan relative positioning pada card */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff8e;
+  border-radius: 8px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.29);
+  padding: 15px;
+  margin-bottom: 15px;
+}
 
     .bundle-card img {
-      width: 100px;
-      height: 100px;
+      width: 90px;
+      height: 90px;
       object-fit: cover;
       border-radius: 10px;
     }
 
     .bundle-info {
       flex: 1;
-      margin-left: 20px;
+      margin-left: 15px;
     }
 
     .bundle-info h4 {
-      margin: 0;
-      font-size: 18px;
-      font-weight: bold;
-    }
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 5px;
+  }
 
     .bundle-info p {
-      margin: 5px 0;
+      margin: 15px 0;
       font-size: 14px;
       color: #555;
     }
@@ -126,17 +129,19 @@
     .bundle-info .location {
       background-color: black;
       color: white;
-      padding: 5px 10px;
-      border-radius: 50px;
+      padding: 5px 40px;
+      border-radius: 9px;
       font-size: 12px;
     }
 
     .bundle-price {
-      font-size: 18px;
-      font-weight: bold;
-      margin-left: 5px;
-      margin-bottom: 10vh;
-    }
+  font-size: 18px;
+  font-weight: bold;
+  position: absolute; /* Menjadikan harga elemen absolute */
+  top: 15px; /* Sesuaikan dengan jarak atas card */
+  right: 15px; /* Menempatkan harga ke ujung kanan */
+  margin-bottom: 0; /* Menghilangkan margin bawah */
+}
 
     /* Action Buttons */
     .bundle-actions {
@@ -147,7 +152,7 @@
     }
 
     .bundle-actions .btn {
-      color: orange;
+      color: black;
       font-size: 20px;
       cursor: pointer;
       text-decoration: none;
@@ -231,50 +236,37 @@
         </ul>
       </div>
     </div>
-  </nav>
-  <div class="container mt-5">
+</nav>
+
+  <div class="container">
     <div class="header">VIEW BUNDLING</div>
     <div class="header-line"></div>
-  </div>
-  <div id="bundling-container">
-    <% if (paket && paket.length> 0) { %>
-      <% paket.forEach(function(bundle) { %>
-        <div class="bundle-card">
-          <!-- Image -->
-          <% if (bundle.Gambar) { %>
-            <img src="data:image/png;base64,<%= bundle.Gambar.toString('base64') %>" alt="<%= bundle.Nama_paket %>" />
+
+    <div id="bundling-container">
+      <% if (paket && paket.length > 0) { %>
+        <% paket.forEach(function(bundle) { %>
+          <div class="bundle-card">
+            <% if (bundle.Gambar) { %>
+              <img src="data:image/png;base64,<%= bundle.Gambar.toString('base64') %>" alt="<%= bundle.Nama_paket %>">
             <% } else { %>
               <img src="/images/placeholder.png" alt="Image Placeholder">
-              <% } %>
-
-                <!-- Bundle Info -->
-                <div class="bundle-info">
-                  <h4>
-                    <%= bundle.Nama_paket %>
-                  </h4>
-                  <p>
-                    <%= bundle.Deskripsi %>
-                  </p>
-                  <span class="location">Lokasi</span>
-                </div>
-
-                <!-- Price -->
-                <div class="bundle-price">Rp <%= bundle.Harga.toLocaleString() %>
-                </div>
-
-                <!-- Actions -->
-                <div class="bundle-actions">
-                  <!-- Edit Button -->
-                  <a href="/admin/paket/edit/<%= bundle.ID_Paket %>" class="btn">
-                    <i class="bi bi-pencil" title="Edit "></i>
-                  </a>
-                  <!-- Delete Button -->
-                  <a href="/admin/paket/delete/<%= bundle.ID_Paket %>" class="btn"
-                    onclick="return confirm('Apakah Anda yakin ingin menghapus paket ini?')">
-                    <i class="bi bi-trash" title="Delete"></i>
-                  </a>
-                </div>
-        </div>
+            <% } %>
+            <div class="bundle-info">
+              <h4><%= bundle.Nama_paket %></h4>
+              <p><%= bundle.Deskripsi %></p>
+              <span class="location">Lokasi</span>
+            </div>
+            <div class="bundle-price">Rp <%= bundle.Harga.toLocaleString() %></div>
+            <div class="bundle-actions">
+              <a href="/admin/paket/edit/<%= bundle.ID_Paket %>" class="btn">
+                <i class="fas fa-pen"></i>
+              </a>
+              <a href="/admin/paket/delete/<%= bundle.ID_Paket %>" class="btn"
+                onclick="return confirm('Apakah Anda yakin ingin menghapus paket ini?')">
+                <i class="fas fa-trash"></i>
+              </a>
+            </div>
+          </div>
         <% }); %>
           <% } else { %>
             <p>No bundling data available.</p>
@@ -283,7 +275,7 @@
 
   <!-- Add Button -->
   <a href="/admin/paket/new" class="btn btn-add">
-    <i class="bi bi-plus-circle"></i>
+    <i class="fas fa-plus"></i>
   </a>
 </body>
 

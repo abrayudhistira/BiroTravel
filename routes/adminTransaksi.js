@@ -15,17 +15,29 @@ const adminController = require('../controllers/adminController');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-router.get('/:id/deletePage', authenticate, isAdmin, async(req, res) => {
+router.get('/:id/deletePage', authenticate, isAdmin, async (req, res) => {
     const { id } = req.params;
-    console.log("Masuk ke route deletePage dengan ID:", id);
     const transaksi = await Transaksi.findByPk(id);
+
     if (!transaksi) {
         console.log("Transaksi tidak ditemukan");
         return res.status(404).send('Transaksi tidak ditemukan.');
     }
-    console.log("Transaksi ditemukan:", transaksi);
-    res.render('admin/deletePage', { transaksi });
+
+    // Convert Bukti_Pembayaran to Base64 if available
+    const buktiBase64 = transaksi.Bukti_Pembayaran
+        ? transaksi.Bukti_Pembayaran.toString('base64')
+        : null;
+
+    // Pass Base64 image to template
+    res.render('admin/deletePage', {
+        transaksi: {
+            ...transaksi.get({ plain: true }),
+            Bukti_Pembayaran: buktiBase64
+        }
+    });
 });
+
 
 router.post('/:id/deletePage', authenticate, isAdmin, async(req, res) => {
     const { id } = req.params;

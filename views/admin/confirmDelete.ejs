@@ -5,88 +5,260 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Konfirmasi Hapus Paket</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .container {
-            padding: 20px;
-        }
-        
-        .header {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-        
-        .header-line {
-            height: 4px;
-            background-color: #f96332;
-            width: 176vh;
-            margin-bottom: 20px;
-        }
-        
-        .bundle-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        
-        .bundle-info img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-        
-        .bundle-info div {
-            flex: 1;
-            margin-left: 20px;
-        }
-        
-        .bundle-actions {
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
 </head>
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    .navbar {
+        background-color: #f5f5f5;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand img {
+        max-width: 100px;
+        /* Maksimal lebar gambar */
+        max-height: 100px;
+        /* Maksimal tinggi gambar */
+        width: auto;
+        /* Menyesuaikan lebar otomatis */
+        height: auto;
+        /* Menyesuaikan tinggi otomatis */
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1rem;
+        /* Ukuran font default */
+        font-weight: bold;
+        transition: transform 0.3s ease, color 0.3s ease;
+        /* Tambahkan animasi */
+        color: #343a40;
+        /* Warna default teks */
+    }
+
+    .navbar-nav .nav-link:hover {
+        transform: scale(1.2);
+        /* Membesarkan teks saat hover */
+        color: #f96332;
+        /* Ubah warna teks saat hover */
+    }
+
+    .nav-icon i {
+        font-size: 1.5rem;
+        /* Besarkan ikon */
+        transition: transform 0.3s ease, color 0.3s ease;
+        /* Tambahkan animasi */
+    }
+
+    .nav-icon:hover i {
+        transform: scale(1.2);
+        /* Membesarkan ikon saat hover */
+        color: #f96332;
+        /* Ubah warna ikon saat hover */
+    }
+
+    .nav-icon-logout i {
+        font-size: 1.5rem;
+        /* Besarkan ikon */
+        transition: transform 0.3s ease, color 0.3s ease;
+        /* Tambahkan animasi */
+    }
+
+    .nav-icon-logout:hover i {
+        transform: scale(1.2);
+        /* Membesarkan ikon saat hover */
+        color: red;
+        /* Ubah warna ikon saat hover */
+    }
+
+    .container-transaksi {
+        max-width: 900px;
+        margin: 50px auto;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        position: relative;
+    }
+
+    .header {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 20px 0;
+    }
+
+    .header-line {
+        height: 4px;
+        background-color: #f96332;
+        width: 167vh;
+        margin-bottom: 20px;
+    }
+
+    .back-button {
+        text-decoration: none;
+        font-size: 24px;
+        color: #343a40;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        transition: color 0.3s ease;
+    }
+
+    .back-button:hover {
+        color: #f96332;
+    }
+
+    .transaction-container {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .transaction-image {
+        flex-basis: 40%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .transaction-image img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .placeholder {
+        width: 100%;
+        height: 200px;
+        background-color: #e9ecef;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: #6c757d;
+        font-weight: bold;
+    }
+
+    .transaction-info {
+        flex-basis: 55%;
+        color: #343a40;
+    }
+
+    .transaction-info p {
+        margin: 5px 0;
+        font-size: 16px;
+    }
+
+    .transaction-id {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .transaction-date {
+        font-size: 14px;
+        color: #6c757d;
+        margin-bottom: 15px;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        transform: scale(1.05);
+    }
+</style>
+
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img alt="Orange Travel Logo" src="/image/Logo.png" />
+            </a>
+            <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/dashboardadmin">Transaksi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/paket">Bundling</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-icon" href="/admin/paket">
+                            <i class="fas fa-cog"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-icon-logout" href="/admin/logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <div class="container">
-        <div class="header">Konfirmasi Penghapusan Paket</div>
-        <div class="header-line"></div>
+    <a href="#" class="back-button">
+        <i class="fas fa-arrow-left fa-2x"></i>
+    </a>
 
-        <div class="bundle-info">
-            <div>
-                <h4>Nama Paket:
-                    <%= paket.Nama_paket %>
-                </h4>
-                <p><strong>Deskripsi:</strong>
-                    <%= paket.Deskripsi %>
-                </p>
-                <p><strong>Harga:</strong> Rp
-                    <%= paket.Harga.toLocaleString() %>
-                </p>
+    <div class="header">Konfirmasi Hapus Paket</div>
+    <div class="header-line"></div>
+
+    <div class="container-transaksi">
+        <div class="transaction-container">
+            <div class="transaction-image">
+                <% if (paket.Gambar) { %>
+                    <img src="data:image/png;base64,<%= paket.Gambar %>" alt="<%= paket.Nama_paket %>">
+                <% } else { %>
+                    <div class="placeholder">No Image Available</div>
+                <% } %>
             </div>
 
-            <% if (imageSrc) { %>
-                <img src="data:image/png;base64,<%= imageSrc %>" alt="<%= paket.Nama_paket %>" />
-                <% } else { %>
-                    <img src="/images/placeholder.png" alt="Image Placeholder" />
-                    <% } %>
-        </div>
+            <div class="transaction-info">
+                <p class="transaction-id">Nama Paket: <%= paket.Nama_paket %></p>
+                <p><strong>Deskripsi:</strong> <%= paket.Deskripsi %></p>
+                <p><strong>Harga:</strong> Rp <%= paket.Harga.toLocaleString() %></p>
 
-        <div class="bundle-actions">
-            <p>Apakah Anda yakin ingin menghapus paket ini?</p>
+                <form action="/admin/paket/delete/<%= paket.ID_Paket %>" method="POST"
+                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus paket ini?');">
+                    <button type="submit" class="btn-danger">Ya, Hapus</button>
+                </form>
 
-            <!-- Delete Action -->
-            <form action="/admin/paket/delete/<%= paket.ID_Paket %>" method="POST">
-                <button type="submit" class="btn btn-danger">Ya, Hapus</button>
-            </form>
-
-            <!-- Cancel Action -->
-            <a href="/admin/paket" class="btn btn-secondary">Batal</a>
+                <a href="/admin/paket" class="btn btn-secondary">Batal</a>
+            </div>
         </div>
     </div>
-
 </body>
 
 </html>

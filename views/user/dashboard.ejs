@@ -6,50 +6,646 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Paket Bundling</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .navbar {
+            background-color: #f5f5f5;
+            padding: 0.5rem 1rem;
+        }
+
+        .navbar-brand img {
+            max-width: 100px;
+            /* Maksimal lebar gambar */
+            max-height: 100px;
+            /* Maksimal tinggi gambar */
+            width: auto;
+            /* Menyesuaikan lebar otomatis */
+            height: auto;
+            /* Menyesuaikan tinggi otomatis */
+        }
+
+        .nav-link {
+            color: #333;
+            /* Default color */
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Hover effect for nav-links */
+        .nav-link:hover {
+            color: white;
+            /* Change text color on hover */
+            background-color: #f96332;
+            /* Add orange background */
+            border-radius: 5px;
+            /* Rounded corners */
+        }
+
+        .nav-keranjang {
+            color: yellow;
+            /* Default color */
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Hover effect for nav-links */
+        .nav-keranjang:hover {
+            color: white;
+            /* Change text color on hover */
+            background-color: #f96332;
+            /* Add orange background */
+            border-radius: 5px;
+            /* Rounded corners */
+        }
+
+        /* Style for the active link */
+        .nav-link.active {
+            color: white;
+            background-color: #f96332;
+            border-radius: 5px;
+        }
+
+        /* Additional hover for buttons (like Login) */
+        .btn:hover {
+            background-color: #495057;
+            /* Slightly lighter gray for buttons */
+            color: white;
+        }
+
+        /* Add spacing between nav-items */
+        .nav-item {
+            margin-right: 15px;
+        }
+
+        .nav-icon-logout i {
+            font-size: 1.5rem;
+            /* Besarkan ikon */
+            transition: transform 0.3s ease, color 0.3s ease;
+            /* Tambahkan animasi */
+        }
+
+        .nav-icon-logout:hover i {
+            transform: scale(1.2);
+            /* Membesarkan ikon saat hover */
+            color: red;
+            /* Ubah warna ikon saat hover */
+        }
+
+
+        .hero-section {
+            position: relative;
+            text-align: center;
+            padding: 100px 0;
+            height: 70vh;
+            /* Ubah tinggi hero-section menjadi lebih kecil */
+            overflow: hidden;
+        }
+
+        .hero-section video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            /* Video lebih kecil, gunakan 80% dari lebar container */
+            height: auto;
+            /* Tinggi video akan mengikuti lebar untuk mempertahankan proporsi */
+            z-index: -1;
+        }
+
+        .hero-section h1,
+        .hero-section p,
+        .hero-section .btn {
+            margin-top: 10vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section h1 {
+            font-size: 2rem;
+            /* Ukuran font lebih kecil */
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-section p {
+            font-size: 1rem;
+            /* Ukuran font lebih kecil */
+            color: #f5f5f5;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-section .btn {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            /* Ukuran tombol lebih kecil */
+            padding: 8px 15px;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            background-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .hero-section .btn:hover {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .search-section {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: -50px;
+        }
+
+        .search-section .form-control {
+            border: none;
+            border-bottom: 2px solid #bdc3c7;
+            border-radius: 0;
+        }
+
+        .search-section .btn {
+            background-color: #000000;
+            color: #ffffff;
+            border-radius: 5px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            background-color: #e9ecef;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+        .card-text {
+            font-size: 1.25rem;
+            color: #6c757d;
+        }
+
+        .location {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+
+        .price {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+        .favorite-icon {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #6c757d;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #343a40;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+        .container {
+            padding: 1rem;
+        }
+
+        .title {
+            color: #1a1a1a;
+            font-weight: bold;
+            padding-top: 1rem;
+        }
+
+        .subtitle {
+            color: #6c757d;
+        }
+
+        .step {
+            padding-top: 2rem;
+            display: flex;
+            align-items: start;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-icon {
+            font-size: 2rem;
+            color: #fff;
+            background-color: #000;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            margin-right: 1rem;
+        }
+
+        .step-title {
+            font-weight: bold;
+            color: #1a1a1a;
+        }
+
+        .step-description {
+            color: #6c757d;
+        }
+
+        .abstract-shape {
+            width: 100%;
+            height: 60vh;
+            max-width: 350px;
+            margin-top: 2rem;
+            border-radius: 15px;
+
+        }
+
+        .image-container {
+            margin-top: 1rem;
+            border-radius: 10px;
+        }
+
+        .stats-section {
+            background-color: #e0e0e0;
+            padding: 40px 0;
+        }
+
+        .stats-section .stat-item {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .stats-section .stat-item i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .stats-section .stat-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .stats-section .stat-item p {
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .service-section {
+            padding: 60px 0;
+            background-color: #f5f5f5;
+        }
+
+        .service-section h2 {
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+
+        .service-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .service-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .service-card h5 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+
+        .service-card p {
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .footer {
+            background-color: #e0e0e0;
+            padding: 20px 0;
+        }
+
+        .footer .contact-info,
+        .footer .quick-links,
+        .footer .follow-us {
+            margin-bottom: 20px;
+        }
+
+        .footer .contact-info i,
+        .footer .follow-us i {
+            margin-right: 10px;
+        }
+
+        .footer .contact-info p,
+        .footer .quick-links ul,
+        .footer .follow-us p {
+            margin: 0;
+        }
+
+        .footer .quick-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer .quick-links ul li {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center text-primary mb-4">Daftar Paket Bundling</h1>
-        <h1>Selamat datang, <%= user.username %>!</h1>
-        <a href="/user/riwayat-transaksi" class="btn btn-primary">Riwayat Transaksi</a>
-
-        <!-- Icon Keranjang dengan Jumlah Item -->
-        <div class="text-right mb-3">
-            <a href="/user/keranjang" class="btn btn-warning">
-                🛒 Keranjang (<span id="cart-count"><%= keranjangCount %></span>)
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img alt="Orange Travel Logo" src="/image/Logo.png" />
             </a>
+            <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon">
+                </span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Bundling
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/riwayat-transaksi">
+                            Riwayat Transaksi
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-keranjang" href="/user/keranjang">
+                            <i class="fas fa-shopping-cart">(<span id="cart-count">0</span>)
+                            </i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-dark">
+                            <%= user.username %>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/user/logout" class="nav-link nav-icon-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-
+    </nav>
+    <section class="hero-section">
+        <div class="container">
+            <video src="/image/video.mp4" class="video-fluid" autoplay loop muted></video>
+            <h1>
+                Temukan Petualangan Tak Terlupakan!
+            </h1>
+            <p>
+                Temukan Petualangan Tak Terlupakan! Kami hadir untuk mewujudkan perjalanan impian Anda, dari destinasi
+                eksotis hingga liburan keluarga yang nyaman.
+            </p>
+        </div>
+    </section>
+    <section class="search-section container">
         <div class="row">
-            <% paket.forEach(p => { %>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="location">
+                        <i class="fas fa-map-marker-alt">
+                        </i>
+                        Location
+                    </label>
+                    <input class="form-control" id="location" placeholder="Cari Tujuan" type="text" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="guests">
+                        <i class="fas fa-user-friends">
+                        </i>
+                        Guests
+                    </label>
+                    <input class="form-control" id="guests" placeholder="Tambah Tamu" type="text" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="date">
+                        <i class="fas fa-calendar-alt">
+                        </i>
+                        Date
+                    </label>
+                    <input class="form-control" id="date" placeholder="Pilih Jadwal" type="text" />
+                </div>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button class="btn btn-dark w-100">
+                    Search
+                </button>
+            </div>
+        </div>
+    </section>
+    <div class="container text-center my-5">
+        <p class="section-subtitle">Top Selling</p>
+        <h2 class="section-title">Top Destinations</h2>
+        <div class="row mt-4">
+            <% paket.forEach(p=> { %>
                 <div class="col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card position-relative">
+                        <!-- Ikon Favorit -->
+                        <i class="fas fa-heart favorite-icon"></i>
                         <% if (p.Gambar) { %>
-                            <img src="data:image/png;base64,<%= p.Gambar.toString('base64') %>" class="card-img-top" alt="<%= p.Nama_paket %>">
-                        <% } else { %>
-                            <img src="https://via.placeholder.com/300?text=No+Image" class="card-img-top" alt="Gambar tidak tersedia">
-                        <% } %>
-                        <div class="card-body">
-                            <h5 class="card-title"><%= p.Nama_paket %></h5>
-                            <p class="card-text"><%= p.Deskripsi %></p>
-                            <p class="text-success font-weight-bold">Rp <%= p.Harga %></p>
-
-                            <!-- Formulir untuk menambahkan item ke keranjang -->
-                            <form action="/user/keranjang/add" method="POST">
-                                <input type="hidden" name="ID_Paket" value="<%= p.ID_Paket %>">
-                                <input type="hidden" name="userId" value="<%= user.id %>">
-                                <button type="submit" class="btn btn-primary">Tambah ke Keranjang</button>
-                            </form>
-                        </div>
+                            <img src="data:image/png;base64,<%= p.Gambar.toString('base64') %>" class="card-img-top"
+                                alt="<%= p.Nama_paket %>">
+                            <% } else { %>
+                                <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top"
+                                    alt="Gambar tidak tersedia">
+                                <% } %>
+                                    <div class="card-body">
+                                        <!-- Nama Paket dan Harga -->
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="card-title mb-0">
+                                                <%= p.Nama_paket %>
+                                            </p>
+                                            <p class="price mb-0">Rp <%= p.Harga %>
+                                            </p>
+                                        </div>
+                                        <!-- Lokasi dan Tombol -->
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <p class="location mb-0"><i class="fas fa-map-marker-alt"></i> Bintan</p>
+                                            <button class="btn add-icon" aria-label="Add"
+                                                onclick="addToCart('<%= p.ID_Paket %>', '<%= p.Nama_paket %>', '<%= p.Harga %>')">
+                                                <a class="nav-link">
+                                                    <i class="fas fa-plus-circle"></i>
+                                                </a>
+                                            </button>
+                                        </div>
+                                    </div>
                     </div>
                 </div>
-            <% }); %>
+                <% }); %>
         </div>
+    </div> 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h6 class="subtitle">Mudah Dan Cepat</h6>
+                <h1 class="title">Pesan Perjalanan Anda Dalam 3 Langkah Mudah</h1>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div>
+                        <h5 class="step-title">Pilih Destinasi</h5>
+                        <p class="step-description">Tentukan tujuan perjalanan Anda dengan mudah. Pilih tempat yang
+                            ingin Anda kunjungi sesuai keinginan.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div>
+                        <h5 class="step-title">Melakukan Pembayaran</h5>
+                        <p class="step-description">Nikmati kemudahan dalam proses pembayaran yang aman, cepat, dan
+                            praktis.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <div>
+                        <h5 class="step-title">Mencapai Destinasi pada Tanggal yang Dipilih</h5>
+                        <p class="step-description">Bersiaplah menikmati perjalanan Anda tepat waktu sesuai rencana yang
+                            telah ditentukan.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center align-items-center image-container">
+                <img alt="Abstract shape with overlapping gray and black layers" class="abstract-shape"
+                    src="/image/fotoLanding.jpg" />
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-6 col-md-3 stat-item">
+                    <i class="fas fa-users"></i>
+                    <h3>126 +</h3>
+                    <p>Satisfied Client</p>
+                </div>
+                <div class="col-6 col-md-3 stat-item">
+                    <i class="fas fa-user"></i>
+                    <h3>230 +</h3>
+                    <p>New Traveller</p>
+                </div>
+                <div class="col-6 col-md-3 stat-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>230 +</h3>
+                    <p>Destination</p>
+                </div>
+                <div class="col-6 col-md-3 stat-item">
+                    <i class="fas fa-award"></i>
+                    <h3>230 +</h3>
+                    <p>Award</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <!-- Tombol Logout -->
-        <div class="text-right mt-4">
-            <a href="/user/logout" class="btn btn-danger">Logout</a>
+    <div class="container service-section">
+        <h2 class="text-center">Our Service</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card service-card">
+                    <i class="fas fa-ticket-alt"></i>
+                    <h5 class="card-title">Ticket Booking</h5>
+                    <p class="card-text">Kami menyiapkan berbagai jenis tiket hiburan dan wisata yang murah dan lengkap
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card service-card">
+                    <i class="fas fa-hotel"></i>
+                    <h5 class="card-title">Hotel Booking</h5>
+                    <p class="card-text">Kami menyediakan layanan booking hotel yang mudah dan sesuai kebutuhan Anda</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card service-card">
+                    <i class="fas fa-bus"></i>
+                    <h5 class="card-title">Transportation</h5>
+                    <p class="card-text">Kami menyediakan layanan transportasi yang aman dan nyaman</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 contact-info">
+                    <p><i class="fas fa-map-marker-alt"></i> Jl. Amartha No 117, Yogyakarta</p>
+                    <p><i class="fas fa-envelope"></i> orangetravel@gmail.com</p>
+                    <p><i class="fas fa-envelope"></i> Direct By Kelompok 4</p>
+                    <p><i class="fas fa-phone"></i> 0895335992588</p>
+                </div>
+                <div class="col-md-4 quick-links">
+                    <h5>Quick Link</h5>
+                    <ul>
+                        <li>Home</li>
+                        <li>Bundling</li>
+                    </ul>
+                </div>
+                <div class="col-md-4 follow-us">
+                    <h5>Follow us</h5>
+                    <p>
+                        <i class="fab fa-facebook-f"></i>
+                        <i class="fab fa-twitter"></i>
+                        <i class="fab fa-instagram"></i>
+                        <i class="fab fa-linkedin-in"></i>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -57,6 +653,30 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+
+
+    <!-- JavaScript untuk Keranjang -->
+    <script>
+        let keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
+
+        // Update jumlah item di keranjang saat halaman dimuat
+        document.getElementById('cart-count').innerText = keranjang.length;
+
+        function addToCart(ID_Paket, Nama_paket, Harga) {
+            keranjang.push({
+                ID_Paket,
+                Nama_paket,
+                Harga
+            });
+            localStorage.setItem('keranjang', JSON.stringify(keranjang));
+            document.getElementById('cart-count').innerText = keranjang.length;
+            alert(`${Nama_paket} telah ditambahkan ke keranjang!`);
+        }
+    </script>
 </body>
 
 </html>
