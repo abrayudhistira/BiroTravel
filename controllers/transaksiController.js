@@ -69,13 +69,26 @@ exports.showTransaksi = async(req, res) => {
     }
 };
 
+// exports.deleteTransaksi = async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         await Transaksi.destroy({ where: { ID_Transaksi: id } });
+//         res.redirect('/admin/transaksi');
+//     } catch (err) {
+//         console.error('Error deleting transaction:', err);
+//         res.status(500).send('Error deleting transaction.');
+//     }
+// };
+
 exports.deleteTransaksi = async (req, res) => {
     try {
-        const { id } = req.params;
-        await Transaksi.destroy({ where: { ID_Transaksi: id } });
+        const transaksi = await Transaksi.findByPk(req.params.id);
+        if (!transaksi) return res.status(404).send('Transaction not found.');
+
+        await transaksi.destroy();
         res.redirect('/admin/transaksi');
     } catch (err) {
-        console.error('Error deleting transaction:', err);
+        console.error(err);
         res.status(500).send('Error deleting transaction.');
     }
 };
