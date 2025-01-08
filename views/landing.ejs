@@ -33,6 +33,44 @@
             /* Menyesuaikan tinggi otomatis */
         }
 
+        .nav-link {
+            color: #333;
+            /* Default color */
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Hover effect for nav-links */
+        .nav-link:hover {
+            color: white;
+            /* Change text color on hover */
+            background-color: #f96332;
+            /* Add orange background */
+            border-radius: 5px;
+            /* Rounded corners */
+        }
+
+        /* Style for the active link */
+        .nav-link.active {
+            color: white;
+            background-color: #f96332;
+            border-radius: 5px;
+        }
+
+        /* Additional hover for buttons (like Login) */
+        .btn:hover {
+            background-color: #495057;
+            /* Slightly lighter gray for buttons */
+            color: white;
+        }
+
+        /* Add spacing between nav-items */
+        .nav-item {
+            margin-right: 15px;
+        }
+
         .hero-section {
             position: relative;
             text-align: center;
