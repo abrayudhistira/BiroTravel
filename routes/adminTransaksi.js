@@ -8,6 +8,7 @@ const Transaksi = require('../models/Transaksi'); // Pastikan path ini sesuai de
 const {deleteTransaksi} = require('../controllers/transaksiController');
 const { authenticate, isAdmin } = require('../middlewares/auth');
 const { getAllTransaksi } = require('../controllers/transaksiController');
+const adminController = require('../controllers/adminController');
 
 
 // Konfigurasi multer untuk menyimpan file di memory
@@ -59,11 +60,12 @@ const upload = multer({ storage: storage });
 //     }
 // });
 // Route to view all transactions (admin-specific)
-router.get('/transaksi', authenticate, isAdmin, getAllTransaksi);
+//router.get('/transaksi', authenticate, isAdmin, getAllTransaksi);
 
 // Route untuk melihat detail transaksi
-router.get('/transaksi/:id', transaksiController.showTransaksi);
+//router.get('/transaksi/:id', transaksiController.showTransaksi);
 // Route untuk menghapus transaksi
-router.post('/transaksi/:id/delete', authenticate, isAdmin, deleteTransaksi);
+//router.post('/transaksi/:id/delete', transaksiController.deleteTransaksi);
+router.delete('/transaksi/delete/:id', transaksiController.deleteTransaksi);
 
 module.exports = router;

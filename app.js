@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const userRouter = require('./routes/user');
 const adminRouter = require('./routes/admin');
-const transaksiRouter = require('./routes/adminTransaksi');
+//const transaksiRouter = require('./routes/adminTransaksi');
 const sequelize = require('./config/database');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -44,11 +44,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/user', userRouter); // User routes
 app.use('/admin', adminRouter); // Admin routes (login, dashboard, logout)
 app.use('/admin', paketRouter); // Paket Bundling routes (CRUD operations)
-app.use('/admin', adminTransaksiRouter); // Admin-specific transaksi routes
+app.use('/admin/transaksi', adminTransaksiRouter); // Admin-specific transaksi routes
 app.use('/', userTransaksiRouter); // User-specific transaksi routes
 
 // Tambahkan routes untuk transaksi
-app.use('/', transaksiRouter);
+//app.use('/', transaksiRouter);
 
 // Landing page route
 app.get('/', async(req, res) => {

@@ -500,6 +500,7 @@
                                     alt="Gambar tidak tersedia">
                                 <% } %>
                                     <div class="card-body">
+<<<<<<< HEAD
                                         <!-- Nama Paket dan Harga -->
                                         <div class="d-flex justify-content-between align-items-center">
                                             <p class="card-title mb-0">
@@ -518,6 +519,20 @@
                                                 </a>
                                             </button>
                                         </div>
+=======
+                                        <h5 class="card-title">
+                                            <%= p.Nama_paket %>
+                                        </h5>
+                                        <p class="card-text">
+                                            <%= p.Deskripsi %>
+                                        </p>
+                                        <p class="text-success font-weight-bold">Rp
+                                            <%= p.Harga %>
+                                        </p>
+
+                                        <!-- Tombol Tambah ke Keranjang dengan JavaScript -->
+                                        <button class="btn btn-primary" onclick="addToCart('<%= p.ID_Paket %>', '<%= p.Nama_paket %>', '<%= p.Harga %>')">Tambah ke Keranjang</button>
+>>>>>>> 81759cf144bc9042e319df8ac0f002be9791636a
                                     </div>
                     </div>
                 </div>
