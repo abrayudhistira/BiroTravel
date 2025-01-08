@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -8,10 +7,71 @@
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-MaM9dXL-TUC9vL86Wya6vOYdNHb3mbH9HJ1PpLnsLb2/6a5x+uGni2grkx9Te8rN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
   <style>
-    .container{
-      padding: 10vh;
+    .navbar {
+      background-color: #f5f5f5;
+      padding: 0.5rem 1rem;
     }
+
+    .navbar-brand img {
+      max-width: 100px;
+      /* Maksimal lebar gambar */
+      max-height: 100px;
+      /* Maksimal tinggi gambar */
+      width: auto;
+      /* Menyesuaikan lebar otomatis */
+      height: auto;
+      /* Menyesuaikan tinggi otomatis */
+    }
+
+    .navbar-nav .nav-link {
+      font-size: 1rem;
+      /* Ukuran font default */
+      font-weight: bold;
+      transition: transform 0.3s ease, color 0.3s ease;
+      /* Tambahkan animasi */
+      color: #343a40;
+      /* Warna default teks */
+    }
+
+    .navbar-nav .nav-link:hover {
+      transform: scale(1.2);
+      /* Membesarkan teks saat hover */
+      color: #f96332;
+      /* Ubah warna teks saat hover */
+    }
+
+    .nav-icon i {
+      font-size: 1.5rem;
+      /* Besarkan ikon */
+      transition: transform 0.3s ease, color 0.3s ease;
+      /* Tambahkan animasi */
+    }
+
+    .nav-icon:hover i {
+      transform: scale(1.2);
+      /* Membesarkan ikon saat hover */
+      color: #f96332;
+      /* Ubah warna ikon saat hover */
+    }
+
+    .nav-icon-logout i {
+      font-size: 1.5rem;
+      /* Besarkan ikon */
+      transition: transform 0.3s ease, color 0.3s ease;
+      /* Tambahkan animasi */
+    }
+
+    .nav-icon-logout:hover i {
+      transform: scale(1.2);
+      /* Membesarkan ikon saat hover */
+      color: red;
+      /* Ubah warna ikon saat hover */
+    }
+
 
     .header {
       font-size: 24px;
@@ -22,7 +82,8 @@
     .header-line {
       height: 4px;
       background-color: #f96332;
-      width: 176vh;
+      width: 100%;
+      /* Changed to 100% for better responsiveness */
       margin-bottom: 20px;
     }
 
@@ -86,7 +147,7 @@
     }
 
     .bundle-actions .btn {
-      color: black;
+      color: orange;
       font-size: 20px;
       cursor: pointer;
       text-decoration: none;
@@ -134,73 +195,96 @@
 </head>
 
 <body>
-
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img alt="Orange Travel Logo" src="/image/Logo.png" />
+      </a>
+      <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+        data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
+        <span class="navbar-toggler-icon">
+        </span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/dashboardadmin">
+              Transaksi
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/paket">
+              Bundling
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-icon" href="/admin/paket">
+              <i class="fas  fa-cog">
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-icon-logout" href="/admin/logout">
+              <i class="fas fa-sign-out-alt"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
   <div class="container mt-5">
-    <!-- Title Section -->
     <div class="header">VIEW BUNDLING</div>
     <div class="header-line"></div>
-
-    <div id="bundling-container">
-      <% if (paket && paket.length> 0) { %>
-        <% paket.forEach(function(bundle) { %>
-          <div class="bundle-card">
-            <!-- Image -->
-            <% if (bundle.Gambar) { %>
-              <img src="data:image/png;base64,<%= bundle.Gambar.toString('base64') %>" alt="<%= bundle.Nama_paket %>" />
-              <% } else { %>
-                <img src="/images/placeholder.png" alt="Image Placeholder">
-                <% } %>
-
-                  <!-- Bundle Info -->
-                  <div class="bundle-info">
-                    <h4>
-                      <%= bundle.Nama_paket %>
-                    </h4>
-                    <p>
-                      <%= bundle.Deskripsi %>
-                    </p>
-                    <span class="location">Lokasi</span>
-                  </div>
-
-                  <!-- Price -->
-                  <div class="bundle-price">Rp <%= bundle.Harga.toLocaleString() %>
-                  </div>
-
-                  <!-- Actions -->
-                  <div class="bundle-actions">
-                    <!-- Edit Button -->
-                    <a href="/admin/paket/edit/<%= bundle.ID_Paket %>" class="btn">
-                      <i class="bi bi-pencil" title="Edit"></i>
-                    </a>
-                    <!-- Delete Button -->
-                    <a href="/admin/paket/delete/<%= bundle.ID_Paket %>" class="btn"
-                      onclick="return confirm('Apakah Anda yakin ingin menghapus paket ini?')">
-                      <i class="bi bi-trash" title="Delete"></i>
-                    </a>
-                  </div>
-          </div>
-          <% }); %>
+  </div>
+  <div id="bundling-container">
+    <% if (paket && paket.length> 0) { %>
+      <% paket.forEach(function(bundle) { %>
+        <div class="bundle-card">
+          <!-- Image -->
+          <% if (bundle.Gambar) { %>
+            <img src="data:image/png;base64,<%= bundle.Gambar.toString('base64') %>" alt="<%= bundle.Nama_paket %>" />
             <% } else { %>
-              <p>No bundling data available.</p>
+              <img src="/images/placeholder.png" alt="Image Placeholder">
               <% } %>
-    </div>
 
-    <!-- Add Button -->
-    <a href="/admin/paket/new" class="btn btn-add">
-      <i class="bi bi-plus-circle"></i>
-    </a>
+                <!-- Bundle Info -->
+                <div class="bundle-info">
+                  <h4>
+                    <%= bundle.Nama_paket %>
+                  </h4>
+                  <p>
+                    <%= bundle.Deskripsi %>
+                  </p>
+                  <span class="location">Lokasi</span>
+                </div>
+
+                <!-- Price -->
+                <div class="bundle-price">Rp <%= bundle.Harga.toLocaleString() %>
+                </div>
+
+                <!-- Actions -->
+                <div class="bundle-actions">
+                  <!-- Edit Button -->
+                  <a href="/admin/paket/edit/<%= bundle.ID_Paket %>" class="btn">
+                    <i class="bi bi-pencil" title="Edit "></i>
+                  </a>
+                  <!-- Delete Button -->
+                  <a href="/admin/paket/delete/<%= bundle.ID_Paket %>" class="btn"
+                    onclick="return confirm('Apakah Anda yakin ingin menghapus paket ini?')">
+                    <i class="bi bi-trash" title="Delete"></i>
+                  </a>
+                </div>
+        </div>
+        <% }); %>
+          <% } else { %>
+            <p>No bundling data available.</p>
+            <% } %>
   </div>
 
-  <!-- Bootstrap JS and dependencies -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"
-    integrity="sha384-vk1F5pOWT+IrpZeMmvbkoDzV33p6wEaKPCALNfhxxp9TY/UT/6YSFz8m8I8L93D3"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-    integrity="sha384-B4gt1jrGC7Jh4AgjC07vxZkvY51qmxqSACxjNPWtxJOPPJG1SkFtJdZGBGh1mEOn"
-    crossorigin="anonymous"></script>
+  <!-- Add Button -->
+  <a href="/admin/paket/new" class="btn btn-add">
+    <i class="bi bi-plus-circle"></i>
+  </a>
 </body>
 
 </html>
