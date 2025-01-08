@@ -6,7 +6,8 @@ const {
   showAddForm, 
   showEditForm, 
   addPaket,
-  editPaket
+  editPaket,
+  showDeleteConfirmation
 } = require('../controllers/paketBundlingController');
 const { authenticate, isAdmin } = require('../middlewares/auth');
 const upload = require('../middlewares/upload'); // Middleware for file uploads
@@ -25,6 +26,7 @@ router.post('/paket/new', authenticate, isAdmin, upload.single('Gambar'), addPak
 router.get('/paket/edit/:id', authenticate, isAdmin, showEditForm); // Show form to edit a package
 router.post('/paket/edit/:id', authenticate, isAdmin, upload.single('Gambar'), editPaket); // Edit a package
 
+router.get('/paket/delete/:id', authenticate, isAdmin, showDeleteConfirmation); // Show delete confirmation page
 router.post('/paket/delete/:id', authenticate, isAdmin, deletePaket); // Delete a package
 
 module.exports = router;

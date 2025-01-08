@@ -11,14 +11,13 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center text-primary mb-4">Daftar Paket Bundling</h1>
-        <h1>Selamat datang,
-            <%= user.username %>!</h1>
+        <h1>Selamat datang, <%= user.username %>!</h1>
         <a href="/user/riwayat-transaksi" class="btn btn-primary">Riwayat Transaksi</a>
 
         <!-- Icon Keranjang dengan Jumlah Item -->
         <div class="text-right mb-3">
             <a href="/user/keranjang" class="btn btn-warning">
-                🛒 Keranjang (<span id="cart-count">0</span>)
+                🛒 Keranjang (<span id="cart-count"><%= keranjangCount %></span>)
             </a>
         </div>
 
@@ -28,26 +27,24 @@
                     <div class="card">
                         <% if (p.Gambar) { %>
                             <img src="data:image/png;base64,<%= p.Gambar.toString('base64') %>" class="card-img-top" alt="<%= p.Nama_paket %>">
-                            <% } else { %>
-                                <img src="https://via.placeholder.com/300?text=No+Image" class="card-img-top" alt="Gambar tidak tersedia">
-                                <% } %>
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            <%= p.Nama_paket %>
-                                        </h5>
-                                        <p class="card-text">
-                                            <%= p.Deskripsi %>
-                                        </p>
-                                        <p class="text-success font-weight-bold">Rp
-                                            <%= p.Harga %>
-                                        </p>
+                        <% } else { %>
+                            <img src="https://via.placeholder.com/300?text=No+Image" class="card-img-top" alt="Gambar tidak tersedia">
+                        <% } %>
+                        <div class="card-body">
+                            <h5 class="card-title"><%= p.Nama_paket %></h5>
+                            <p class="card-text"><%= p.Deskripsi %></p>
+                            <p class="text-success font-weight-bold">Rp <%= p.Harga %></p>
 
-                                        <!-- Tombol Tambah ke Keranjang dengan JavaScript -->
-                                        <button class="btn btn-primary" onclick="addToCart('<%= p.ID_Paket %>', '<%= p.Nama_paket %>', '<%= p.Harga %>')">Tambah ke Keranjang</button>
-                                    </div>
+                            <!-- Formulir untuk menambahkan item ke keranjang -->
+                            <form action="/user/keranjang/add" method="POST">
+                                <input type="hidden" name="ID_Paket" value="<%= p.ID_Paket %>">
+                                <input type="hidden" name="userId" value="<%= user.id %>">
+                                <button type="submit" class="btn btn-primary">Tambah ke Keranjang</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <% }); %>
+            <% }); %>
         </div>
 
         <!-- Tombol Logout -->
@@ -60,25 +57,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <!-- JavaScript untuk Keranjang -->
-    <script>
-        let keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
-
-        // Update jumlah item di keranjang saat halaman dimuat
-        document.getElementById('cart-count').innerText = keranjang.length;
-
-        function addToCart(ID_Paket, Nama_paket, Harga) {
-            keranjang.push({
-                ID_Paket,
-                Nama_paket,
-                Harga
-            });
-            localStorage.setItem('keranjang', JSON.stringify(keranjang));
-            document.getElementById('cart-count').innerText = keranjang.length;
-            alert(`${Nama_paket} telah ditambahkan ke keranjang!`);
-        }
-    </script>
 </body>
 
 </html>

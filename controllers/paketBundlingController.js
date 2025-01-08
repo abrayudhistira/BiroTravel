@@ -75,17 +75,6 @@ exports.editPaket = async (req, res) => {
   }
 };
 
-// Menghapus paket bundling
-exports.deletePaket = async (req, res) => {
-  try {
-    await PaketBundling.destroy({ where: { ID_Paket: req.params.id } });
-    res.redirect('/admin/paket');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error deleting paket bundling.');
-  }
-};
-
 // Mengupdate paket
 exports.updatePaket = async (req, res) => {
   try {
@@ -98,5 +87,35 @@ exports.updatePaket = async (req, res) => {
   } catch (error) {
       console.error(error);
       res.status(500).send('Error updating paket bundling.');
+  }
+};
+
+// Menampilkan halaman konfirmasi penghapusan
+exports.showDeleteConfirmation = async(req, res) => {
+  try {
+      const paket = await PaketBundling.findByPk(req.params.id);
+      if (!paket) {
+          return res.status(404).send('Paket not found.');
+      }
+      const paketList = await PaketBundling.findAll(); // Ambil semua paket bundling untuk ditampilkan
+      let imageSrc = null;
+      if (paket.Gambar) {
+          imageSrc = paket.Gambar.toString('base64'); // Konversi gambar menjadi base64
+      }
+      res.render('admin/confirmDelete', { paket, paketList, imageSrc }); // Kirim imageSrc ke tampilan
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Error fetching paket data.');
+  }
+};
+
+// Menghapus paket bundling
+exports.deletePaket = async(req, res) => {
+  try {
+      await PaketBundling.destroy({ where: { ID_Paket: req.params.id } });
+      res.redirect('/admin/paket');
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Error deleting paket bundling.');
   }
 };

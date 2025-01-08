@@ -1,0 +1,23 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Transaksi</title>
+</head>
+
+<body>
+    <h1>Are you sure you want to delete this transaction?</h1>
+    <p>ID Transaksi:
+        <%= transaksi.ID_Transaksi %>
+    </p>
+    <p>Jumlah Pembayaran: Rp
+        <%= transaksi.Jumlah_Pembayaran %>
+    </p>
+    <form action="/admin/transaksi/<%= transaksi.ID_Transaksi %>/deletePage" method="POST" onsubmit="return confirm('Apakah Anda yakin?');">
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    </form>
+    <a href="/admin/dashboard">Cancel</a>
+</body>
+
+</html>

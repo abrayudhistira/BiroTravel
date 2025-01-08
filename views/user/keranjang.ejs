@@ -1,85 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keranjang</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center text-primary mb-4">Keranjang Belanja</h1>
+    <h1>Keranjang Anda</h1>
 
-        <!-- Tombol kembali ke Dashboard -->
-        <a href="/user/dashboard" class="btn btn-secondary mb-3">Kembali ke Dashboard</a>
+    <!-- Cek apakah ada item dalam keranjang -->
+    <% if (keranjangItems.length > 0) { %>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Paket</th>
+                    <th>Harga</th>
+                    <th>Jumlah</th>
+                    <th>Total</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% keranjangItems.forEach((item, index) => { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= item.PaketBundling ? item.PaketBundling.Nama_paket : 'Paket tidak ditemukan' %></td>
+                        <td>Rp <%= item.PaketBundling ? item.PaketBundling.Harga.toLocaleString() : '0' %></td>
+                        <td><%= item.Jumlah %></td>
+                        <td>Rp <%= item.PaketBundling ? (item.PaketBundling.Harga * item.Jumlah).toLocaleString() : '0' %></td>
+                        <td>
+                            <!-- Tombol hapus item dengan onclick yang memanggil fungsi JavaScript -->
+                            <button onclick="removeFromKeranjang('<%= item.keranjang_id %>')">Hapus</button>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
 
-        <div class="row" id="cart-items-container">
-            <!-- Data keranjang akan dimuat di sini dengan JS -->
-        </div>
-
-        <!-- Total Harga -->
-        <h4 class="mt-4">Total: Rp <span id="total-harga">0</span></h4>
-
-        <form action="/user/transaksi" method="POST" id="checkout-form">
-            <input type="hidden" name="id" value="<%= user.id %>">
-            <input type="hidden" name="ID_Paket" id="ID_Paket">
-            <input type="hidden" name="Jumlah_Pembayaran" id="Jumlah_Pembayaran">
-            <button type="button" class="btn btn-success mt-3" onclick="checkout()">Checkout</button>
+        <!-- Tombol checkout -->
+        <form action="/user/transaksi" method="POST">
+            <button type="submit">Checkout</button>
         </form>
-    </div>
 
-    <!-- JavaScript untuk Menampilkan Data dari Local Storage -->
+    <% } else { %>
+        <p>Keranjang kosong.</p>
+    <% } %>
+
+    <a href="/user/dashboard">Kembali ke Dashboard</a>
+
     <script>
-        const keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
-        const cartContainer = document.getElementById('cart-items-container');
-        const totalHargaElement = document.getElementById('total-harga');
+       async function removeFromKeranjang(keranjangId) {
+            try {
+                const response = await fetch(`/user/keranjang/remove/${keranjangId}`, {
+                    method: 'DELETE', // Menggunakan DELETE untuk menghapus item
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
 
-        function renderCart() {
-            cartContainer.innerHTML = '';
-            let totalHarga = 0;
-
-            keranjang.forEach((item, index) => {
-                totalHarga += item.Harga;
-                cartContainer.innerHTML += `
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="${item.Gambar}" class="card-img-top" alt="Gambar Paket ${item.Nama_paket}">
-                            <div class="card-body">
-                                <h5 class="card-title">${item.Nama_paket}</h5>
-                                <p class="text-success font-weight-bold">Rp ${item.Harga}</p>
-                                <button class="btn btn-danger" onclick="removeFromCart(${index})">Hapus</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            totalHargaElement.innerText = totalHarga;
-        }
-
-        function removeFromCart(index) {
-            keranjang.splice(index, 1);
-            localStorage.setItem('keranjang', JSON.stringify(keranjang));
-            renderCart();
-        }
-
-        function checkout() {
-            if (keranjang.length === 0) {
-                alert('Keranjang kosong! Tambahkan paket terlebih dahulu.');
-                return;
+                if (response.ok) {
+                    const data = await response.json();  // Mengubah response menjadi JSON
+                    alert(data.message);  // Menampilkan pesan dari response
+                    location.reload();  // Reload halaman setelah item dihapus
+                } else {
+                    const errorData = await response.json();
+                    alert(errorData.message || 'Terjadi kesalahan saat menghapus item');
+                }
+            } catch (error) {
+                console.error('Terjadi kesalahan:', error);
+                alert('Gagal menghapus item');
             }
-
-            const paket = keranjang[0];
-            document.getElementById('ID_Paket').value = paket.ID_Paket;
-            document.getElementById('Jumlah_Pembayaran').value = paket.Harga;
-
-            document.getElementById('checkout-form').submit();
         }
-
-        renderCart();
     </script>
 </body>
-
 </html>

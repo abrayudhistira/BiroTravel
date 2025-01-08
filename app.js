@@ -11,6 +11,9 @@ const paketRouter = require('./routes/paket');
 const PaketBundling = require('./models/PaketBundling');
 const adminTransaksiRouter = require('./routes/adminTransaksi'); // Admin-specific transaksi routes
 const userTransaksiRouter = require('./routes/userTransaksi'); // User-specific transaksi routes
+const Keranjang = require('./models/Keranjang');
+const methodOverride = require('method-override');
+
 
 // Inisialisasi app terlebih dahulu
 const app = express();
@@ -19,6 +22,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(methodOverride('_method'));
 
 // Middleware untuk static file upload
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfirmasi Hapus Paket</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            padding: 20px;
+        }
+        
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .header-line {
+            height: 4px;
+            background-color: #f96332;
+            width: 176vh;
+            margin-bottom: 20px;
+        }
+        
+        .bundle-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .bundle-info img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        .bundle-info div {
+            flex: 1;
+            margin-left: 20px;
+        }
+        
+        .bundle-actions {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">Konfirmasi Penghapusan Paket</div>
+        <div class="header-line"></div>
+
+        <div class="bundle-info">
+            <div>
+                <h4>Nama Paket:
+                    <%= paket.Nama_paket %>
+                </h4>
+                <p><strong>Deskripsi:</strong>
+                    <%= paket.Deskripsi %>
+                </p>
+                <p><strong>Harga:</strong> Rp
+                    <%= paket.Harga.toLocaleString() %>
+                </p>
+            </div>
+
+            <% if (imageSrc) { %>
+                <img src="data:image/png;base64,<%= imageSrc %>" alt="<%= paket.Nama_paket %>" />
+                <% } else { %>
+                    <img src="/images/placeholder.png" alt="Image Placeholder" />
+                    <% } %>
+        </div>
+
+        <div class="bundle-actions">
+            <p>Apakah Anda yakin ingin menghapus paket ini?</p>
+
+            <!-- Delete Action -->
+            <form action="/admin/paket/delete/<%= paket.ID_Paket %>" method="POST">
+                <button type="submit" class="btn btn-danger">Ya, Hapus</button>
+            </form>
+
+            <!-- Cancel Action -->
+            <a href="/admin/paket" class="btn btn-secondary">Batal</a>
+        </div>
+    </div>
+
+</body>
+
+</html>
