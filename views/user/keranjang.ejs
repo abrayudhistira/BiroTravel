@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keranjang</title>
 </head>
+
 <body>
     <h1>Keranjang Anda</h1>
 
@@ -24,54 +26,70 @@
             <tbody>
                 <% keranjangItems.forEach((item, index) => { %>
                     <tr>
-                        <td><%= index + 1 %></td>
-                        <td><%= item.PaketBundling ? item.PaketBundling.Nama_paket : 'Paket tidak ditemukan' %></td>
-                        <td>Rp <%= item.PaketBundling ? item.PaketBundling.Harga.toLocaleString() : '0' %></td>
-                        <td><%= item.Jumlah %></td>
-                        <td>Rp <%= item.PaketBundling ? (item.PaketBundling.Harga * item.Jumlah).toLocaleString() : '0' %></td>
+                        <td>
+                            <%= index + 1 %>
+                        </td>
+                        <td>
+                            <%= item.PaketBundling ? item.PaketBundling.Nama_paket : 'Paket tidak ditemukan' %>
+                        </td>
+                        <td>Rp
+                            <%= item.PaketBundling ? item.PaketBundling.Harga.toLocaleString() : '0' %>
+                        </td>
+                        <td>
+                            <%= item.Jumlah %>
+                        </td>
+                        <td>Rp
+                            <%= item.PaketBundling ? (item.PaketBundling.Harga * item.Jumlah).toLocaleString() : '0' %>
+                        </td>
                         <td>
                             <!-- Tombol hapus item dengan onclick yang memanggil fungsi JavaScript -->
                             <button onclick="removeFromKeranjang('<%= item.keranjang_id %>')">Hapus</button>
                         </td>
                     </tr>
-                <% }) %>
+                    <% }) %>
             </tbody>
         </table>
 
-        <!-- Tombol checkout -->
-        <form action="/user/transaksi" method="POST">
-            <button type="submit">Checkout</button>
+        <form action="/user/transaksi" method="GET">
+            <% keranjangItems.forEach(item => { %>
+                <input type="hidden" name="ID_Paket" value="<%= item.PaketBundling ? item.PaketBundling.ID_Paket : '' %>">
+                <% }); %>
+                    <button type="submit">Checkout</button>
         </form>
 
-    <% } else { %>
-        <p>Keranjang kosong.</p>
-    <% } %>
 
-    <a href="/user/dashboard">Kembali ke Dashboard</a>
 
-    <script>
-       async function removeFromKeranjang(keranjangId) {
-            try {
-                const response = await fetch(`/user/keranjang/remove/${keranjangId}`, {
-                    method: 'DELETE', // Menggunakan DELETE untuk menghapus item
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
 
-                if (response.ok) {
-                    const data = await response.json();  // Mengubah response menjadi JSON
-                    alert(data.message);  // Menampilkan pesan dari response
-                    location.reload();  // Reload halaman setelah item dihapus
-                } else {
-                    const errorData = await response.json();
-                    alert(errorData.message || 'Terjadi kesalahan saat menghapus item');
-                }
-            } catch (error) {
-                console.error('Terjadi kesalahan:', error);
-                alert('Gagal menghapus item');
-            }
-        }
-    </script>
+        <% } else { %>
+            <p>Keranjang kosong.</p>
+            <% } %>
+
+                <a href="/user/dashboard">Kembali ke Dashboard</a>
+
+                <script>
+                    async function removeFromKeranjang(keranjangId) {
+                        try {
+                            const response = await fetch(`/user/keranjang/remove/${keranjangId}`, {
+                                method: 'DELETE', // Menggunakan DELETE untuk menghapus item
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                            });
+
+                            if (response.ok) {
+                                const data = await response.json(); // Mengubah response menjadi JSON
+                                alert(data.message); // Menampilkan pesan dari response
+                                location.reload(); // Reload halaman setelah item dihapus
+                            } else {
+                                const errorData = await response.json();
+                                alert(errorData.message || 'Terjadi kesalahan saat menghapus item');
+                            }
+                        } catch (error) {
+                            console.error('Terjadi kesalahan:', error);
+                            alert('Gagal menghapus item');
+                        }
+                    }
+                </script>
 </body>
+
 </html>

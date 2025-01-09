@@ -2,7 +2,7 @@ const Keranjang = require('../models/Keranjang');
 const PaketBundling = require('../models/PaketBundling');
 
 // Tampilkan halaman keranjang
-const showKeranjang = async (req, res) => {
+const showKeranjang = async(req, res) => {
     const user = req.session.user;
     if (!user) {
         return res.redirect('/user/login');
@@ -11,7 +11,7 @@ const showKeranjang = async (req, res) => {
     try {
         const keranjangItems = await Keranjang.findAll({
             where: { id: user.id },
-            include: [{ model: PaketBundling, as: 'PaketBundling',attributes: ['Nama_paket', 'Harga'] }]
+            include: [{ model: PaketBundling, as: 'PaketBundling', attributes: ['Nama_paket', 'Harga'] }]
         });
 
         res.render('user/keranjang', { user, keranjangItems });
@@ -22,7 +22,7 @@ const showKeranjang = async (req, res) => {
 };
 
 // Tambahkan item ke keranjang
-const addToKeranjang = async (req, res) => {
+const addToKeranjang = async(req, res) => {
     const { ID_Paket } = req.body;
     const user = req.session.user;
 
@@ -46,7 +46,7 @@ const addToKeranjang = async (req, res) => {
             });
         }
 
-        res.redirect('/user/keranjang');
+        res.redirect('/user/dashboard');
     } catch (err) {
         console.error(err);
         res.status(500).send('Error adding item to keranjang');
@@ -73,8 +73,8 @@ const addToKeranjang = async (req, res) => {
 //         res.status(500).send('Error removing item from keranjang');
 //     }
 // };
-const removeFromKeranjang = async (req, res) => {
-    const { id } = req.params;  // Ambil ID dari URL
+const removeFromKeranjang = async(req, res) => {
+    const { id } = req.params; // Ambil ID dari URL
     const user = req.session.user;
 
     if (!user) {

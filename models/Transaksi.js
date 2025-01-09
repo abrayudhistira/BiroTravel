@@ -44,7 +44,10 @@ const Transaksi = sequelize.define('Transaksi', {
 });
 
 // Relasi dengan model lain
-Transaksi.belongsTo(User, { foreignKey: 'id' });
-Transaksi.belongsTo(PaketBundling, { foreignKey: 'ID_Paket' });
+Transaksi.belongsTo(User, { foreignKey: 'id', as: 'User' });
+Transaksi.belongsTo(PaketBundling, {
+    foreignKey: 'ID_Paket',
+    as: 'paketbundling'
+});
 
 module.exports = Transaksi;

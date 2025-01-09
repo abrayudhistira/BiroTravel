@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1,
+        h2 {
+            color: #333;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        
+        table th,
+        table td {
+            border: 1px solid #ccc;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        
+        table th {
+            background-color: #f2f2f2;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        select,
+        input[type="file"] {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .total {
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Halaman Pembayaran</h1>
+    </header>
+    <div class="container">
+        <h2>Detail Paket di Keranjang</h2>
+        <% if (paket.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Paket</th>
+                        <th>Harga</th>
+                        <th>Jumlah</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% paket.forEach((item, index) => { %>
+                        <tr>
+                            <td>
+                                <%= index + 1 %>
+                            </td>
+                            <td>
+                                <%= item.PaketBundling.Nama_paket %>
+                            </td>
+                            <td>Rp
+                                <%= item.PaketBundling.Harga.toLocaleString() %>
+                            </td>
+                            <td>
+                                <%= item.Jumlah %>
+                            </td>
+                            <td>Rp
+                                <%= (item.PaketBundling.Harga * item.Jumlah).toLocaleString() %>
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+            <p class="total">Total Pembayaran: Rp
+                <%= totalPembayaran.toLocaleString() %>
+            </p>
+            <% } else { %>
+                <p>Keranjang Anda kosong.</p>
+                <% } %>
+
+                    <h2>Pilih Metode Pembayaran</h2>
+                    <form action="/user/confirm-pembayaran" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="totalPembayaran" value="<%= totalPembayaran %>">
+                        <div class="form-group">
+                            <label for="jenis_pembayaran">Jenis Pembayaran:</label>
+                            <select name="jenis_pembayaran" id="jenis_pembayaran" required>
+                    <option value="Transfer Bank">Transfer Bank</option>
+                    <option value="E-Wallet">E-Wallet</option>
+                    <option value="COD">COD (Bayar di Tempat)</option>
+                </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="bukti_pembayaran">Upload Bukti Pembayaran (Opsional):</label>
+                            <input type="file" name="bukti_pembayaran" id="bukti_pembayaran">
+                        </div>
+                        <button type="submit" class="btn">Konfirmasi Pembayaran</button>
+                    </form>
+
+                    <div style="margin-top: 1rem;">
+                        <a href="/user/keranjang" class="btn">Kembali ke Keranjang</a>
+                    </div>
+    </div>
+</body>
+
+</html>

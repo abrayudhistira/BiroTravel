@@ -4,7 +4,7 @@ const User = require('../models/Users');
 const fs = require('fs');
 
 
-exports.createTransaksi = async (req, res) => {
+exports.createTransaksi = async(req, res) => {
     try {
         console.log("Request Body:", req.body); // Periksa data yang dikirimkan
         console.log("Uploaded File:", req.file); // Periksa file yang diupload
@@ -54,20 +54,42 @@ exports.createTransaksi = async (req, res) => {
         res.status(500).json({ message: 'Error creating transaksi', error: error.message });
     }
 };
-// Fungsi untuk menampilkan detail transaksi
-exports.showTransaksi = async(req, res) => {
+// Fungsi untuk menampilkan riwayat transaksi
+exports.showRiwayatTransaksi = async(req, res) => {
     try {
-        const transaksi = await Transaksi.findOne({
-            where: { ID_Transaksi: req.params.id },
-            include: [User, PaketBundling],
+        // Ambil riwayat transaksi dengan meng-include User dan PaketBundling
+        const transaksi = await Transaksi.findAll({
+            include: [{
+                    model: User,
+                    as: 'User',
+                    attributes: ['id', 'username', 'nama', 'email', 'alamat', 'no_telp'],
+                },
+                {
+                    model: PaketBundling,
+                    as: 'paketbundling',
+                    attributes: ['ID_Paket', 'Nama_paket', 'Harga'],
+                },
+            ],
         });
 
-        res.render('user/transaksi', { transaksi });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error fetching transaksi details.');
+        // Log untuk memverifikasi apakah paketbundling ter-load dengan benar
+        console.log(transaksi);
+
+        // Menyederhanakan penanganan jumlah pembayaran
+        transaksi.forEach(t => {
+            t.Jumlah_Pembayaran = t.Jumlah_Pembayaran ? parseFloat(t.Jumlah_Pembayaran) : 0;
+        });
+
+        // Render riwayat transaksi ke view
+        res.render('user/riwayatTransaksi', {
+            transaksi,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Terjadi kesalahan saat mengambil riwayat transaksi');
     }
 };
+
 
 // exports.deleteTransaksi = async (req, res) => {
 //     try {
@@ -80,7 +102,7 @@ exports.showTransaksi = async(req, res) => {
 //     }
 // };
 
-exports.deleteTransaksi = async (req, res) => {
+exports.deleteTransaksi = async(req, res) => {
     try {
         const transaksi = await Transaksi.findByPk(req.params.id);
         if (!transaksi) return res.status(404).send('Transaction not found.');
@@ -94,7 +116,7 @@ exports.deleteTransaksi = async (req, res) => {
 };
 
 // Get all transactions (admin-specific)
-exports.getAllTransaksi = async (req, res) => {
+exports.getAllTransaksi = async(req, res) => {
     try {
         const transaksi = await Transaksi.findAll();
         res.render('admin/transaksi', { transaksi });

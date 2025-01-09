@@ -16,7 +16,7 @@ const PaketBundling = sequelize.define('paketbundling', {
         allowNull: false
     },
     Gambar: {
-        type: DataTypes.BLOB('long'),  // Menggunakan BLOB untuk gambar
+        type: DataTypes.BLOB('long'), // Menggunakan BLOB untuk gambar
         allowNull: true
     },
     Harga: {
@@ -27,6 +27,7 @@ const PaketBundling = sequelize.define('paketbundling', {
     tableName: 'paketbundling',
     timestamps: false
 });
+
 
 
 module.exports = PaketBundling;
