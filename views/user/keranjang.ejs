@@ -6,7 +6,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keranjang</title>
 </head>
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Arial', sans-serif;
+        color: #333;
+    }
 
+    h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+        text-align: center;
+    }
+
+    td {
+        padding: 10px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    tr:hover {
+        background-color: #e2e6ea;
+    }
+
+    button {
+        background-color: #ff6f61;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+        background-color: #ff3b1f;
+        transform: scale(1.05);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .empty-message {
+        font-size: 1.2rem;
+        color: #6c757d;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    a:hover {
+        color: #0056b3;
+    }
+</style>
 <body>
     <h1>Keranjang Anda</h1>
 

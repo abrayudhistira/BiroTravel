@@ -5,24 +5,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riwayat Order</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f5f5f5;
+          
+            background-color: white;
         }
-        
+
         .container {
             background: white;
-            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
         
+    
+        .navbar {
+            background-color: white;
+            
+        }
+
+        .navbar-brand img {
+            max-width: 100px;
+            /* Maksimal lebar gambar */
+            max-height: 100px;
+            /* Maksimal tinggi gambar */
+            width: auto;
+            /* Menyesuaikan lebar otomatis */
+            height: auto;
+            /* Menyesuaikan tinggi otomatis */
+        }
+
+        .nav-link {
+            color: #333;
+            /* Default color */
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Hover effect for nav-links */
+        .nav-link:hover {
+            color: white;
+            /* Change text color on hover */
+            background-color: #f96332;
+            /* Add orange background */
+            border-radius: 5px;
+            /* Rounded corners */
+        }
+
+        .nav-keranjang {
+            color: yellow;
+            /* Default color */
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Hover effect for nav-links */
+        .nav-keranjang:hover {
+            color: white;
+            /* Change text color on hover */
+            background-color: #f96332;
+            /* Add orange background */
+            border-radius: 5px;
+            /* Rounded corners */
+        }
+
+        /* Style for the active link */
+        .nav-link.active {
+            color: white;
+            background-color: #f96332;
+            border-radius: 5px;
+        }
+
+        /* Additional hover for buttons (like Login) */
+        .btn:hover {
+            background-color: #495057;
+            /* Slightly lighter gray for buttons */
+            color: white;
+        }
+
+        /* Add spacing between nav-items */
+        .nav-item {
+            margin-right: 15px;
+        }
+
+        .nav-icon-logout i {
+            font-size: 1.5rem;
+            /* Besarkan ikon */
+            transition: transform 0.3s ease, color 0.3s ease;
+            /* Tambahkan animasi */
+        }
+
+        .nav-icon-logout:hover i {
+            transform: scale(1.2);
+            /* Membesarkan ikon saat hover */
+            color: red;
+            /* Ubah warna ikon saat hover */
+        }
+
         h1 {
             font-size: 28px;
         }
-        
+
+        h2 {
+            font-size: 28px;
+            margin-top: 10vh;
+            
+        }
+
         .status {
             display: inline-block;
             padding: 5px 10px;
@@ -30,13 +129,13 @@
             background-color: #8bc34a;
             color: white;
         }
-        
+
         .info-box {
             display: flex;
             justify-content: space-between;
             margin-top: 20px;
         }
-        
+
         .card {
             padding: 20px;
             border-radius: 10px;
@@ -44,7 +143,7 @@
             width: 48%;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
+
         .product {
             border: 1px solid #ddd;
             padding: 15px;
@@ -54,35 +153,77 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .total {
             text-align: right;
             font-size: 20px;
             font-weight: bold;
             margin-top: 20px;
         }
-        
+
         .download-link {
             text-align: right;
             margin-top: 10px;
         }
-        
+
         .download-link a {
             text-decoration: none;
-            color: #333;
+            color: white;
         }
     </style>
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img alt="Orange Travel Logo" src="/image/Logo.png" />
+            </a>
+            <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon">
+                </span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Bundling
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/riwayat-transaksi">
+                            Riwayat Transaksi
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-dark">
+                            <%= transaksi[0].User.username %>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/user/logout" class="nav-link nav-icon-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div class="container">
         <h1>RIWAYAT ORDER</h1>
-        <% transaksi.forEach((t, index) => { %>
-            <!-- Header Order -->
+
+        <!-- Menampilkan hanya satu informasi penerima -->
+        <% if (transaksi.length > 0) { %>
             <p>Order ID: #
-                <%= t.id %> <span class="status"><%= t.status_pembayaran || 'Belum Lunas' %></span></p>
+                <%= transaksi[0].id %> <span class="status"><%= transaksi[0].status_pembayaran || 'Belum Lunas' %></span></p>
             <p>
-                <%= new Date(t.createdAt).toLocaleDateString('id-ID') %>
+                <%= new Date(transaksi[0].createdAt).toLocaleDateString('id-ID') %>
             </p>
             <div class="download-link">
                 <a href="#">Download Transaksi ⬇</a>
@@ -90,59 +231,69 @@
 
             <!-- Informasi Penerima dan Pembayaran -->
             <div class="info-box">
-                <!-- Informasi Penerima -->
                 <div class="card">
                     <h3>Recipient Information</h3>
                     <p><strong>Nama:</strong>
-                        <%= t.User ? t.User.nama : 'Tidak ada nama' %>
+                        <%= transaksi[0].User.nama %>
                     </p>
                     <p><strong>Email:</strong>
-                        <%= t.User ? t.User.email : 'Tidak ada email' %>
+                        <%= transaksi[0].User.email %>
                     </p>
                     <p><strong>Alamat:</strong>
-                        <%= t.User ? t.User.alamat : 'Tidak ada alamat' %>
+                        <%= transaksi[0].User.alamat %>
                     </p>
                     <p><strong>No. Telepon:</strong>
-                        <%= t.User ? t.User.no_telp : 'Tidak ada nomor' %>
+                        <%= transaksi[0].User.no_telp %>
                     </p>
                     <p><strong>Username:</strong>
-                        <%= t.User ? t.User.username : 'Tidak ada username' %>
+                        <%= transaksi[0].User.username %>
                     </p>
                 </div>
 
-                <!-- Informasi Pembayaran -->
                 <div class="card">
                     <h3>Payment Information</h3>
                     <p><strong>Jenis Pembayaran:</strong>
-                        <%= t.jenis_pembayaran ? t.jenis_pembayaran : 'Tidak ada' %>
+                        <%= transaksi[0].jenis_pembayaran || 'Tidak ada' %>
                     </p>
-                    <p><strong>Nomor Dana:</strong> 083126783674</p>
                     <p><strong>Total Pembayaran:</strong> Rp
-                        <%= t.Jumlah_Pembayaran.toLocaleString('id-ID') %>
+                        <%= transaksi[0].Jumlah_Pembayaran.toLocaleString('id-ID') %>
                     </p>
                 </div>
             </div>
 
             <!-- Daftar Produk -->
             <h2>PRODUCT</h2>
-            <div class="product">
-                <div>
-                    <p><strong><%= t.paketbundling ? t.paketbundling.Nama_paket : 'Tidak ada paket' %></strong></p>
-                    <p>Rp
-                        <%= t.paketbundling ? t.paketbundling.Harga.toLocaleString('id-ID') : '0' %>
-                    </p>
+            <% transaksi.forEach(t => { %>
+                <div class="product">
+                    <div>
+                        <p><strong><%= t.paketbundling ? t.paketbundling.Nama_paket : 'Tidak ada paket' %></strong></p>
+                        <p>Rp
+                            <%= t.paketbundling ? t.paketbundling.Harga.toLocaleString('id-ID') : '0' %>
+                        </p>
+                    </div>
+                    <p><strong>X 1</strong></p>
                 </div>
-                <p><strong>X 2</strong></p>
-            </div>
+                <% }) %>
 
-            <!-- Total Pembayaran -->
-            <div class="total">
-                Total: Rp
-                <%= t.Jumlah_Pembayaran.toLocaleString('id-ID') %>
-            </div>
-            <hr>
-            <% }) %>
+                    <!-- Total Pembayaran -->
+                    <div class="total">
+                        Total: Rp
+                        <%= transaksi.reduce((total, t) => total + t.Jumlah_Pembayaran, 0).toLocaleString('id-ID') %>
+                    </div>
+                    <% } else { %>
+                        <p>Tidak ada riwayat transaksi ditemukan.</p>
+                        <% } %>
     </div>
+
 </body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </html>

@@ -5,102 +5,211 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pembayaran</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background-color: white;
         }
-        
-        header {
-            background-color: #333;
+
+        .navbar {
+            background-color: white;
+
+        }
+
+        .navbar-brand img {
+            max-width: 100px;
+            /* Maksimal lebar gambar */
+            max-height: 100px;
+            /* Maksimal tinggi gambar */
+            width: auto;
+            /* Menyesuaikan lebar otomatis */
+            height: auto;
+            /* Menyesuaikan tinggi otomatis */
+        }
+
+        .nav-link {
+            color: #333;
+            /* Default color */
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Hover effect for nav-links */
+        .nav-link:hover {
             color: white;
-            padding: 1rem 0;
-            text-align: center;
+            /* Change text color on hover */
+            background-color: #f96332;
+            /* Add orange background */
+            border-radius: 5px;
+            /* Rounded corners */
         }
-        
+
+        .nav-keranjang {
+            color: yellow;
+            /* Default color */
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Hover effect for nav-links */
+        .nav-keranjang:hover {
+            color: white;
+            /* Change text color on hover */
+            background-color: #f96332;
+            /* Add orange background */
+            border-radius: 5px;
+            /* Rounded corners */
+        }
+
+        /* Style for the active link */
+        .nav-link.active {
+            color: white;
+            background-color: #f96332;
+            border-radius: 5px;
+        }
+
+        /* Additional hover for buttons (like Login) */
+        .btn:hover {
+            background-color: #495057;
+            /* Slightly lighter gray for buttons */
+            color: white;
+        }
+
+        /* Add spacing between nav-items */
+        .nav-item {
+            margin-right: 15px;
+        }
+
+        .nav-icon-logout i {
+            font-size: 1.5rem;
+            /* Besarkan ikon */
+            transition: transform 0.3s ease, color 0.3s ease;
+            /* Tambahkan animasi */
+        }
+
+        .nav-icon-logout:hover i {
+            transform: scale(1.2);
+            /* Membesarkan ikon saat hover */
+            color: red;
+            /* Ubah warna ikon saat hover */
+        }
+
         .container {
-            max-width: 800px;
+            max-width: 1400px;
             margin: 2rem auto;
-            padding: 1rem;
+            padding: 2rem;
             background: white;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        
+
         h1,
         h2 {
             color: #333;
+            margin-bottom: 1rem;
+            font-size: 28px;
         }
-        
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 1rem;
         }
-        
+
         table th,
         table td {
             border: 1px solid #ccc;
-            padding: 0.5rem;
+            padding: 0.8rem;
             text-align: left;
         }
-        
+
         table th {
             background-color: #f2f2f2;
+            font-weight: bold;
         }
-        
+
         .btn {
             display: inline-block;
-            padding: 0.5rem 1rem;
+            padding: 0.8rem 1.5rem;
             font-size: 1rem;
             color: white;
             background-color: #007bff;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             text-decoration: none;
+            text-align: center;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        
+
         .btn:hover {
             background-color: #0056b3;
         }
-        
+
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
-        
+
         label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: bold;
         }
-        
+
         select,
         input[type="file"] {
             width: 100%;
-            padding: 0.5rem;
+            padding: 0.8rem;
             font-size: 1rem;
             border: 1px solid #ccc;
             border-radius: 4px;
+            background-color: #f9f9f9;
+            margin-top: 0.3rem;
         }
-        
+
         .total {
             font-size: 1.25rem;
             font-weight: bold;
             text-align: right;
+            margin-top: 1rem;
+            color: #333;
+        }
+
+        .go-back {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .go-back a {
+            background-color: #28a745;
+            padding: 0.8rem 1.5rem;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .go-back a:hover {
+            background-color: #218838;
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <h1>Halaman Pembayaran</h1>
-    </header>
     <div class="container">
         <h2>Detail Paket di Keranjang</h2>
-        <% if (paket.length > 0) { %>
+        <% if (paket.length> 0) { %>
             <table>
                 <thead>
                     <tr>
@@ -112,7 +221,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% paket.forEach((item, index) => { %>
+                    <% paket.forEach((item, index)=> { %>
                         <tr>
                             <td>
                                 <%= index + 1 %>
@@ -120,21 +229,18 @@
                             <td>
                                 <%= item.PaketBundling.Nama_paket %>
                             </td>
-                            <td>Rp
-                                <%= item.PaketBundling.Harga.toLocaleString() %>
+                            <td>Rp <%= item.PaketBundling.Harga.toLocaleString() %>
                             </td>
                             <td>
                                 <%= item.Jumlah %>
                             </td>
-                            <td>Rp
-                                <%= (item.PaketBundling.Harga * item.Jumlah).toLocaleString() %>
+                            <td>Rp <%= (item.PaketBundling.Harga * item.Jumlah).toLocaleString() %>
                             </td>
                         </tr>
                         <% }); %>
                 </tbody>
             </table>
-            <p class="total">Total Pembayaran: Rp
-                <%= totalPembayaran.toLocaleString() %>
+            <p class="total">Total Pembayaran: Rp <%= totalPembayaran.toLocaleString() %>
             </p>
             <% } else { %>
                 <p>Keranjang Anda kosong.</p>
@@ -146,10 +252,10 @@
                         <div class="form-group">
                             <label for="jenis_pembayaran">Jenis Pembayaran:</label>
                             <select name="jenis_pembayaran" id="jenis_pembayaran" required>
-                    <option value="Transfer Bank">Transfer Bank</option>
-                    <option value="E-Wallet">E-Wallet</option>
-                    <option value="COD">COD (Bayar di Tempat)</option>
-                </select>
+                                <option value="Transfer Bank">Transfer Bank</option>
+                                <option value="E-Wallet">E-Wallet</option>
+                                <option value="COD">COD (Bayar di Tempat)</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="bukti_pembayaran">Upload Bukti Pembayaran (Opsional):</label>
@@ -158,10 +264,18 @@
                         <button type="submit" class="btn">Konfirmasi Pembayaran</button>
                     </form>
 
-                    <div style="margin-top: 1rem;">
-                        <a href="/user/keranjang" class="btn">Kembali ke Keranjang</a>
+                    <div class="go-back">
+                        <a href="/user/keranjang">Kembali ke Keranjang</a>
                     </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

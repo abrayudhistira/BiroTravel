@@ -57,8 +57,10 @@ exports.createTransaksi = async(req, res) => {
 // Fungsi untuk menampilkan riwayat transaksi
 exports.showRiwayatTransaksi = async(req, res) => {
     try {
+        const userId = req.user.id;
         // Ambil riwayat transaksi dengan meng-include User dan PaketBundling
         const transaksi = await Transaksi.findAll({
+            where: { id: userId },
             include: [{
                     model: User,
                     as: 'User',

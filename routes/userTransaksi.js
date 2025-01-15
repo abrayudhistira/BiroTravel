@@ -12,7 +12,7 @@ const router = express.Router();
 // Route for adding a new transaction (user-specific)
 router.post('/transaksi/new', authenticate, upload.single('Bukti_Pembayaran'), createTransaksi);
 // Route untuk melihat riwayat transaksi
-router.get('/riwayat-transaksi', showRiwayatTransaksi);
+router.get('/riwayat-transaksi', authenticate, showRiwayatTransaksi);
 
 
 module.exports = router;
