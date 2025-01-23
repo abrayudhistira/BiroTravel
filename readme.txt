@@ -6,3 +6,6 @@ http://localhost:3000/user/login
 
 Ini Link untuk Landing Page :
 http://localhost:3000/
+
+link testing
+https://github.com/MeiTriCahyani/testing_add_bundling_paw.git
